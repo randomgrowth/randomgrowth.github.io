@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#161a26">
+<meta name="description" content="Random Growth Agency — Content, Reels, design and account management in Egypt & the Gulf. Stop Random. Start Growth.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Random Growth Agency">
+<meta property="og:description" content="مش وكالة. فريق التسويق بتاعك. · Stop Random. Start Growth.">
+<meta property="og:url" content="https://randomgrowth.github.io/">
+<meta property="og:image" content="https://randomgrowth.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="logo.png"><title>Random Growth Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@400;500;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap">
+<style>
+/* Layout: one dark brand world — stacked bands, each with its own inner gutter; Arabic-first with an English switch.
+   Motion layer: hero phone mockup, crossing marquee tapes, scroll reveals, spotlight cards — all off under reduced motion. */
+:root {
+  --bg: #161a26;
+  --band: #1D2331;
+  --panel: #232a3b;
+  --line: #343d54;
+  --fg: #f3f1fb;
+  --muted: #b3aec8;
+  --purple: #8B53FE;
+  --purple-deep: #5b32c9;
+  --lime: #8DFE00;
+  --on-lime: #141823;
+  --font-display-ar: 'Lalezar', 'Tajawal', system-ui, sans-serif;
+  --font-body-ar: 'Tajawal', system-ui, sans-serif;
+  --font-en: 'Poppins', system-ui, sans-serif;
+  --ease: cubic-bezier(.2,.8,.2,1);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { overflow-x: clip; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body-ar); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+body::after { content: ""; position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: .06; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+html[data-lang="en"] body { font-family: var(--font-en); font-size: 15px; }
+[data-l="en"] { display: none; }
+html[data-lang="en"] [data-l="en"] { display: revert; }
+html[data-lang="en"] [data-l="ar"] { display: none; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+section { padding-block: 72px; position: relative; }
+.band { background: var(--band); }
+.h-display { font-family: var(--font-display-ar); font-weight: 400; line-height: 1.15; text-wrap: balance; margin: 0; }
+html[data-lang="en"] .h-display { font-family: var(--font-en); font-weight: 900; letter-spacing: -0.02em; line-height: 1.05; }
+.h1 { font-size: clamp(44px, 8vw, 88px); }
+.h2 { font-size: clamp(30px, 5vw, 50px); }
+.kicker { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-en); font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--lime); margin: 0 0 12px; }
+.kicker::before { content: ""; width: 26px; height: 2px; background: var(--lime); border-radius: 2px; box-shadow: 0 0 12px var(--lime); }
+.lead { color: var(--muted); font-size: 18px; max-width: 58ch; margin: 16px 0 0; }
+.lime { color: var(--lime); }
+.glow-text { background: linear-gradient(100deg, var(--lime) 0%, #d8ff9e 25%, var(--lime) 50%, #b98cff 75%, var(--lime) 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: sheen 6s linear infinite; }
+@keyframes sheen { to { background-position: -250% 0; } }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; border-radius: 8px; }
+
+/* scroll progress + cursor glow */
+.progress { position: fixed; inset: 0 0 auto; height: 3px; z-index: 20; background: linear-gradient(90deg, var(--purple), var(--lime)); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); }
+html[dir="rtl"] .progress { transform-origin: 100% 50%; }
+.cursor-glow { position: fixed; width: 520px; height: 520px; left: 0; top: 0; z-index: 0; pointer-events: none; border-radius: 50%; background: radial-gradient(circle, rgba(139,83,254,.16), transparent 62%); transform: translate(calc(var(--cx, -999px) - 50%), calc(var(--cy, -999px) - 50%)); transition: opacity .3s; }
+main, footer, .top { position: relative; z-index: 1; }
+
+/* header */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: rgba(22,26,38,.92); }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: rgba(22,26,38,.72); backdrop-filter: blur(14px) saturate(140%); border-bottom: 1px solid rgba(52,61,84,.7); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 10px; }
+.logo { height: 38px; width: auto; display: block; }
+.top-actions { display: flex; gap: 8px; align-items: center; }
+.btn { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; cursor: pointer; text-decoration: none; font: 800 15px/1 var(--font-body-ar); padding: 14px 22px 12px; border-radius: 999px; transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s, background .2s; }
+html[data-lang="en"] .btn { font-family: var(--font-en); font-weight: 700; padding-top: 13px; }
+.btn-lime { background: var(--lime); color: var(--on-lime); box-shadow: 4px 4px 0 var(--purple); }
+.btn-lime::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.75) 50%, transparent 65%); transform: translateX(-120%); animation: shine 3.6s var(--ease) infinite; }
+@keyframes shine { 0%, 55% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
+.btn-lime:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--purple); }
+.btn-lime:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--purple); }
+.btn-ghost { background: rgba(255,255,255,.02); color: var(--fg); border: 1.5px solid var(--line); }
+.btn-ghost:hover { border-color: var(--purple); background: rgba(139,83,254,.12); }
+.btn-sm { padding: 9px 14px 8px; font-size: 13px; }
+.seg { display: inline-flex; border: 1.5px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; }
+.seg button { border: 0; background: transparent; color: var(--muted); font: 700 13px/1 var(--font-en); padding: 7px 12px; border-radius: 999px; cursor: pointer; transition: background .2s, color .2s; }
+.seg button[aria-pressed="true"] { background: var(--purple); color: #fff; }
+
+/* hero */
+.hero { overflow: hidden; padding-block: 64px 72px; background: var(--bg); }
+.blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; pointer-events: none; }
+.blob.b1 { width: 520px; height: 520px; background: #5b32c9; top: -180px; inset-inline-end: -120px; animation: drift1 16s ease-in-out infinite alternate; }
+.blob.b2 { width: 360px; height: 360px; background: rgba(141,254,0,.35); bottom: -160px; inset-inline-start: -120px; animation: drift2 19s ease-in-out infinite alternate; }
+.blob.b3 { width: 260px; height: 260px; background: #b13cff; top: 40%; inset-inline-start: 40%; opacity: .25; animation: drift1 22s ease-in-out infinite alternate-reverse; }
+@keyframes drift1 { to { transform: translate(-80px, 90px) scale(1.15); } }
+@keyframes drift2 { to { transform: translate(90px, -70px) scale(1.2); } }
+.grid-bg { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 48px 48px; -webkit-mask-image: radial-gradient(70% 70% at 50% 40%, #000 30%, transparent 75%); mask-image: radial-gradient(70% 70% at 50% 40%, #000 30%, transparent 75%); }
+.hero::after { content: 'RANDOM'; position: absolute; inset: auto auto -30px -10px; font: 900 clamp(90px, 22vw, 260px)/1 var(--font-en); letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.06); pointer-events: none; animation: floatTxt 12s ease-in-out infinite alternate; }
+@keyframes floatTxt { to { transform: translateX(40px); } }
+.hero .wrap { position: relative; z-index: 1; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 40px; align-items: center; }
+.ln { display: block; overflow: hidden; padding-block: .06em .1em; }
+.ln > span { display: inline-block; }
+.js .ln > span { transform: translateY(110%); transition: transform 1s var(--ease); }
+.js .loaded .ln > span { transform: none; }
+.js .loaded .ln:nth-child(2) > span { transition-delay: .14s; }
+.js .hero-fade { opacity: 0; transform: translateY(18px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.js .loaded .hero-fade { opacity: 1; transform: none; }
+.js .loaded .hero-fade.d1 { transition-delay: .35s; }
+.js .loaded .hero-fade.d2 { transition-delay: .5s; }
+.js .loaded .hero-fade.d3 { transition-delay: .65s; }
+.js .loaded .hero-fade.d4 { transition-delay: .4s; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+.chip { display: inline-flex; align-items: center; gap: 7px; font: 600 13px/1 var(--font-en); padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.05); border: 1px solid var(--line); color: var(--muted); }
+.chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 8px var(--lime); animation: pulse 2s ease-in-out infinite; }
+.chip:nth-child(2)::before { animation-delay: .5s; } .chip:nth-child(3)::before { animation-delay: 1s; } .chip:nth-child(4)::before { animation-delay: 1.5s; }
+@keyframes pulse { 50% { opacity: .25; transform: scale(.7); } }
+
+/* phone mockup */
+.stage { position: relative; width: 100%; max-width: 340px; margin-inline: auto; padding: 18px 0 30px; }
+.phone { position: relative; width: 250px; margin-inline: auto; border-radius: 40px; padding: 9px; background: linear-gradient(145deg, #2c3348, #0d0f16); box-shadow: 0 40px 80px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08), 0 0 80px -10px rgba(139,83,254,.45); animation: bob 6s ease-in-out infinite; transform-style: preserve-3d; }
+@keyframes bob { 50% { transform: translateY(-14px) rotate(-1.5deg); } }
+.screen { border-radius: 32px; overflow: hidden; background: #0f121b; padding: 26px 12px 14px; position: relative; direction: ltr; }
+.screen::before { content: ""; position: absolute; top: 9px; left: 50%; width: 70px; height: 18px; border-radius: 12px; background: #000; transform: translateX(-50%); }
+.p-head { display: flex; align-items: center; gap: 10px; }
+.avatar { position: relative; width: 52px; height: 52px; border-radius: 50%; padding: 3px; flex: none; }
+.avatar::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(var(--lime), var(--purple), #ff5ad1, var(--lime)); animation: spin 4s linear infinite; }
+.avatar span { position: relative; display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: #0f121b; border: 2px solid #0f121b; font: 900 20px/1 var(--font-en); color: var(--lime); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.p-name { font: 700 13px/1.3 var(--font-en); }
+.p-name small { display: block; color: var(--muted); font-weight: 500; font-size: 10.5px; }
+.p-bio { margin: 10px 0 8px; font: 500 10.5px/1.5 var(--font-body-ar); color: #d9d5ea; min-height: 48px; text-align: start; }
+.caret { display: inline-block; width: 1.5px; height: 1em; background: var(--lime); vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.p-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.p-btns span { font: 700 10px/1 var(--font-en); text-align: center; padding: 7px 0; border-radius: 8px; background: #232a3b; }
+.p-btns span:first-child { background: var(--lime); color: var(--on-lime); }
+.hl { display: flex; gap: 8px; margin: 10px 0; }
+.hl span { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--line); background: radial-gradient(circle at 35% 35%, rgba(141,254,0,.5), transparent 60%), #1b2030; }
+.hl span:nth-child(2) { background: radial-gradient(circle at 35% 35%, rgba(139,83,254,.7), transparent 60%), #1b2030; }
+.hl span:nth-child(4) { background: radial-gradient(circle at 35% 35%, rgba(255,90,209,.6), transparent 60%), #1b2030; }
+.tiles { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; border-radius: 6px; overflow: hidden; }
+.tiles i { position: relative; aspect-ratio: 4/5; background: linear-gradient(140deg, var(--purple), var(--purple-deep)); opacity: 0; transform: scale(.6); animation: tileIn .6s var(--ease) forwards; animation-delay: calc(1s + var(--i) * .12s); }
+.tiles i:nth-child(3n+2) { background: linear-gradient(140deg, #2b3550, #161a26); }
+.tiles i:nth-child(4n+1) { background: linear-gradient(140deg, var(--lime), #4fae00); }
+.tiles i:nth-child(5) { background: linear-gradient(140deg, #ff5ad1, var(--purple)); }
+.tiles i.r::after { content: "▶"; position: absolute; top: 4px; right: 5px; font-size: 8px; color: #fff; }
+.tiles::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.28) 50%, transparent 70%); transform: translateX(-100%); animation: sweep 4s 2.4s ease-in-out infinite; }
+@keyframes tileIn { to { opacity: 1; transform: none; } }
+@keyframes sweep { 0% { transform: translateX(-100%); } 40%, 100% { transform: translateX(100%); } }
+.toast { position: absolute; z-index: 2; display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 14px; background: rgba(35,42,59,.82); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.1); box-shadow: 0 14px 30px -10px rgba(0,0,0,.6); font: 700 12px/1.25 var(--font-body-ar); white-space: nowrap; opacity: 0; animation: toast 9s var(--ease) infinite; }
+html[data-lang="en"] .toast { font-family: var(--font-en); font-size: 11.5px; }
+.toast b { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 9px; background: var(--lime); color: var(--on-lime); font-size: 13px; }
+.toast.t1 { top: 8%; inset-inline-start: 0; animation-delay: 1.6s; }
+.toast.t2 { top: 46%; inset-inline-end: 0; animation-delay: 4.6s; }
+.toast.t2 b { background: var(--purple); color: #fff; }
+.toast.t3 { bottom: 12%; inset-inline-start: 4%; animation-delay: 7.6s; }
+.toast.t3 b { background: #ff5ad1; color: #fff; }
+@keyframes toast { 0% { opacity: 0; transform: translateY(14px) scale(.9); } 6%, 30% { opacity: 1; transform: none; } 38%, 100% { opacity: 0; transform: translateY(-10px) scale(.96); } }
+.badge { position: absolute; z-index: 3; bottom: 0; inset-inline-end: -6px; width: 108px; height: 108px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); border: 1px solid var(--line); text-decoration: none; box-shadow: 0 0 0 6px rgba(22,26,38,.6); }
+.badge svg { direction: ltr; position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); animation: spin 14s linear infinite; }
+.badge text { font: 700 9.6px var(--font-en); letter-spacing: .14em; fill: var(--fg); }
+.badge span { width: 38px; height: 38px; border-radius: 50%; background: var(--lime); color: var(--on-lime); display: grid; place-items: center; font: 900 18px/1 var(--font-en); transition: transform .3s var(--ease); }
+.badge:hover span { transform: rotate(-45deg) scale(1.1); }
+
+/* marquee tapes */
+.tapes { position: relative; z-index: 2; display: grid; padding-block: 34px; overflow: hidden; background: linear-gradient(var(--bg), var(--band)); }
+.tape { grid-area: 1 / 1; margin-inline: -40px; overflow: hidden; white-space: nowrap; direction: ltr; padding-block: 13px; font: 900 clamp(18px, 2.6vw, 26px)/1 var(--font-en); text-transform: uppercase; letter-spacing: .02em; }
+.tape.a { background: var(--lime); color: var(--on-lime); transform: rotate(-2.2deg); z-index: 1; box-shadow: 0 10px 30px -10px rgba(141,254,0,.5); }
+.tape.b { background: var(--purple); color: #fff; transform: rotate(2deg); }
+.track { display: inline-flex; gap: 28px; padding-inline-end: 28px; animation: mq 26s linear infinite; }
+.tape.b .track { animation-direction: reverse; animation-duration: 32s; }
+.track i { font-style: normal; opacity: .7; }
+@keyframes mq { to { transform: translateX(-50%); } }
+
+/* reveal */
+[hidden] { display: none !important; }
+.js .rv { opacity: 0; translate: 0 28px; transition: opacity .8s var(--ease) var(--d, 0s), translate .8s var(--ease) var(--d, 0s), transform .35s var(--ease), border-color .3s, box-shadow .35s; }
+.js .rv.in { opacity: 1; translate: none; }
+
+/* cards + spotlight */
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 30px; }
+.card { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 24px; min-width: 0; overflow: hidden; transition: border-color .3s, transform .35s var(--ease), box-shadow .35s var(--ease); }
+.card::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .35s; background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(139,83,254,.22), transparent 60%); }
+.card:hover::before { opacity: 1; }
+.card:hover { border-color: rgba(139,83,254,.7); box-shadow: 0 24px 50px -24px rgba(139,83,254,.55); }
+.card > * { position: relative; }
+.card h3 { margin: 0 0 6px; font-size: 18px; font-weight: 800; }
+.card p { margin: 0; color: var(--muted); }
+.card.hot { border-color: var(--purple); background: linear-gradient(160deg, rgba(139,83,254,.18), var(--panel) 55%); }
+.x-list, .ok-list { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 11px; }
+.x-list li, .ok-list li { display: flex; gap: 10px; align-items: flex-start; }
+.mark { flex: none; width: 24px; height: 24px; border-radius: 50%; display: inline-grid; place-items: center; font: 800 13px/1 var(--font-en); margin-top: 2px; }
+.mark.x { background: rgba(255,255,255,.08); color: var(--muted); }
+.mark.ok { background: var(--lime); color: var(--on-lime); box-shadow: 0 0 14px rgba(141,254,0,.45); }
+.js .ok-list li { opacity: 0; transform: translateX(14px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+html[dir="ltr"].js .ok-list li { transform: translateX(-14px); }
+.js .in .ok-list li, .js .ok-list.in li { opacity: 1; transform: none; }
+.js .ok-list li:nth-child(2) { transition-delay: .12s; } .js .ok-list li:nth-child(3) { transition-delay: .24s; } .js .ok-list li:nth-child(4) { transition-delay: .36s; }
+
+/* before / after */
+.ba { position: relative; margin-top: 30px; border-radius: 24px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); user-select: none; touch-action: pan-y; box-shadow: 0 30px 60px -30px rgba(0,0,0,.7); }
+.ba-pane { padding: 30px 26px; min-height: 240px; display: flex; flex-direction: column; gap: 10px; }
+.ba-before { color: var(--muted); filter: saturate(.4); }
+.ba-after { position: absolute; inset: 0; background: radial-gradient(120% 120% at 100% 0%, rgba(139,83,254,.45), transparent 60%), linear-gradient(135deg, #2b2252, #1f2a2a); clip-path: inset(0 0 0 var(--cut, 50%)); }
+html[dir="rtl"] .ba-after { clip-path: inset(0 var(--cut, 50%) 0 0); }
+.ba-label { font: 700 12px/1 var(--font-en); letter-spacing: .14em; text-transform: uppercase; }
+.ba-before .ba-label { color: var(--muted); }
+.ba-after .ba-label { color: var(--lime); }
+.bio { font-size: 18px; line-height: 1.75; }
+.handle { position: absolute; top: 0; bottom: 0; left: var(--cut, 50%); width: 3px; background: var(--lime); transform: translateX(-50%); pointer-events: none; box-shadow: 0 0 18px var(--lime); }
+html[dir="rtl"] .handle { left: auto; right: var(--cut, 50%); transform: translateX(50%); }
+.handle::after { content: '⇆'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; border-radius: 50%; background: var(--lime); color: var(--on-lime); display: grid; place-items: center; font: 800 18px/1 var(--font-en); box-shadow: 3px 3px 0 var(--purple); }
+.ba input[type=range] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+.note { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+/* package */
+.pkg { margin-top: 30px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); border-radius: 28px; overflow: hidden; position: relative; padding: 1.5px; background: conic-gradient(from var(--ang, 0deg), var(--purple), var(--lime), #ff5ad1, var(--purple)); animation: ang 6s linear infinite; }
+@property --ang { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@keyframes ang { to { --ang: 360deg; } }
+.pkg-price { position: relative; overflow: hidden; border-start-start-radius: 27px; border-end-start-radius: 27px; background: linear-gradient(160deg, var(--purple), var(--purple-deep)); padding: 32px 28px; display: flex; flex-direction: column; gap: 14px; }
+.pkg-price::after { content: ""; position: absolute; width: 240px; height: 240px; border-radius: 50%; inset: auto -80px -100px auto; background: radial-gradient(circle, rgba(141,254,0,.35), transparent 65%); animation: drift1 9s ease-in-out infinite alternate; pointer-events: none; }
+.pkg-price > * { position: relative; z-index: 1; }
+.price { font: 900 clamp(48px, 8vw, 72px)/1 var(--font-en); letter-spacing: -.03em; direction: ltr; text-align: start; }
+html[dir="rtl"] .price { text-align: right; }
+.price .plus { color: var(--lime); }
+.per { color: rgba(255,255,255,.88); font-weight: 600; }
+.pkg-body { background: var(--panel); border-start-end-radius: 27px; border-end-end-radius: 27px; padding: 30px 28px; display: grid; gap: 18px; }
+.pkg-body h3 { margin: 0 0 8px; font-size: 15px; font-weight: 800; color: var(--muted); }
+.pkg .ok-list, .pkg .x-list { margin: 0; }
+
+/* steps */
+.steps { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; counter-reset: s; }
+.steps li { counter-increment: s; position: relative; overflow: hidden; background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 24px; min-width: 0; }
+.steps li:hover { border-color: rgba(141,254,0,.55); box-shadow: 0 24px 50px -24px rgba(141,254,0,.35); }
+.steps li::before { content: counter(s, decimal-leading-zero); display: block; font: 900 42px/1 var(--font-en); color: transparent; -webkit-text-stroke: 1.5px var(--lime); margin-bottom: 12px; transition: color .4s; }
+.steps li:hover::before { color: var(--lime); }
+.steps li::after { content: ""; position: absolute; top: 0; inset-inline-start: 0; height: 3px; width: 100%; background: linear-gradient(90deg, var(--lime), var(--purple)); transform: scaleX(0); transform-origin: left; transition: transform 1s var(--ease) calc(var(--d, 0s) + .3s); }
+html[dir="rtl"] .steps li::after { transform-origin: right; }
+.steps li.in::after { transform: scaleX(1); }
+.steps h3 { margin: 0 0 6px; font-size: 17px; font-weight: 800; }
+.steps p { margin: 0; color: var(--muted); font-size: 15px; }
+
+/* services */
+.svc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 30px; }
+.svc .card { padding: 20px 22px; }
+.ico { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; margin-bottom: 14px; background: rgba(141,254,0,.1); border: 1px solid rgba(141,254,0,.25); color: var(--lime); transition: transform .4s var(--ease), background .3s, color .3s; }
+.ico svg { width: 22px; height: 22px; }
+.svc .card:hover .ico { transform: rotate(-8deg) scale(1.08); background: var(--lime); color: var(--on-lime); }
+.svc .card h3 { font-size: 16px; }
+.svc .card p { font-size: 14.5px; }
+
+/* portfolio */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.tabs button { border: 1.5px solid var(--line); background: transparent; color: var(--muted); font: 700 14px/1 var(--font-body-ar); padding: 10px 16px 9px; border-radius: 999px; cursor: pointer; transition: all .2s; }
+html[data-lang="en"] .tabs button { font-family: var(--font-en); }
+.tabs button[aria-pressed="true"] { background: var(--lime); color: var(--on-lime); border-color: var(--lime); }
+.works { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+.work { position: relative; border-radius: 18px; overflow: hidden; background: var(--panel); border: 1px solid var(--line); aspect-ratio: 4/5; max-width: 100%; animation: tileIn .5s var(--ease) both; }
+.work img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; transition: transform .6s var(--ease); }
+.work:hover img { transform: scale(1.06); }
+.work::after { content: 'RANDOM'; position: absolute; inset: auto 10px 10px auto; font: 800 11px/1 var(--font-en); letter-spacing: .2em; color: rgba(255,255,255,.55); }
+.empty { position: relative; overflow: hidden; margin-top: 18px; border-radius: 24px; padding: 30px 26px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; background: var(--panel); border: 1px solid var(--line); }
+.empty::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, rgba(139,83,254,.07) 0 14px, transparent 14px 28px); background-size: 200% 200%; animation: stripes 12s linear infinite; pointer-events: none; }
+@keyframes stripes { to { background-position: 100% 100%; } }
+.empty > * { position: relative; }
+.empty p { margin: 0; color: var(--muted); max-width: 52ch; }
+
+/* audit form */
+.audit-sec { overflow: hidden; }
+.audit-sec .blob { opacity: .35; }
+.audit { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: start; margin-top: 8px; }
+form { display: grid; gap: 12px; background: rgba(35,42,59,.65); backdrop-filter: blur(10px); border: 1px solid var(--line); border-radius: 24px; padding: 22px; }
+label { font-weight: 700; font-size: 14px; display: grid; gap: 6px; }
+input, select { font: 500 16px/1.2 inherit; color: var(--fg); background: var(--bg); border: 1.5px solid var(--line); border-radius: 14px; padding: 13px 14px; width: 100%; transition: border-color .2s, box-shadow .2s; }
+input:focus, select:focus { border-color: var(--purple); outline: none; box-shadow: 0 0 0 4px rgba(139,83,254,.2); }
+.out { display: none; }
+.out.show { display: grid; gap: 10px; background: rgba(141,254,0,.08); border: 1px solid rgba(141,254,0,.35); border-radius: 16px; padding: 16px; animation: tileIn .4s var(--ease) both; }
+.contact-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.copy-field { font: 600 15px/1 var(--font-en); direction: ltr; unicode-bidi: isolate; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 11px 14px; user-select: all; }
+
+/* footer */
+footer { padding-block: 56px 60px; border-top: 1px solid var(--line); }
+.big-slogan { font: 900 clamp(38px, 9vw, 110px)/.95 var(--font-en); letter-spacing: -.04em; margin: 0 0 34px; direction: ltr; text-align: left; }
+footer .wrap > .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between; }
+.muted-sm { color: var(--muted); font-size: 13px; }
+
+@media (max-width: 860px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .svc, .works { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cursor-glow { display: none; }
+}
+@media (max-width: 640px) {
+  section { padding-block: 52px; }
+  .hero { padding-block: 44px 56px; }
+  .grid2, .audit, .pkg, .steps, .svc { grid-template-columns: minmax(0, 1fr); }
+  .pkg-price { border-radius: 27px 27px 0 0; }
+  .pkg-body { border-radius: 0 0 27px 27px; }
+  .top .btn-wa-text { display: none; }
+  .phone { width: 230px; }
+  .badge { width: 92px; height: 92px; }
+  .badge text { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js .rv, .js .ln > span, .js .hero-fade, .js .ok-list li, .tiles i, .toast.t1 { opacity: 1 !important; transform: none !important; translate: none !important; }
+  .steps li::after { transform: scaleX(1); }
+  .cursor-glow { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="cursor-glow" id="glow" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <img class="logo" src="logo.png" alt="Random">
+    <div class="top-actions">
+      <div class="seg" role="group" aria-label="Language">
+        <button type="button" id="lang-ar" data-set-lang="ar">ع</button>
+        <button type="button" id="lang-en" data-set-lang="en">EN</button>
+      </div>
+      <a class="btn btn-lime btn-sm" href="https://wa.me/201041972524" target="_blank" rel="noopener"><span class="btn-wa-text"><span data-l="ar">واتساب</span><span data-l="en">WhatsApp</span></span><span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="hero">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+    <div class="grid-bg"></div>
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker hero-fade">Random Growth Agency</p>
+        <h1 class="h-display h1">
+          <span data-l="ar"><span class="ln"><span>مش وكالة.</span></span><span class="ln"><span class="glow-text">فريق التسويق بتاعك.</span></span></span>
+          <span data-l="en"><span class="ln"><span>Not an agency.</span></span><span class="ln"><span class="glow-text">Your marketing team.</span></span></span>
+        </h1>
+        <p class="lead hero-fade d1">
+          <span data-l="ar">محتوى، ريلز، تصميم وإدارة حسابات، يمسكها فريق واحد عشان صفحتك تجيب عملاء، مش لايكات بس.</span>
+          <span data-l="en">Content, Reels, design and account management, run by one team so your page brings customers, not just likes.</span>
+        </p>
+        <div class="hero-cta hero-fade d2">
+          <a class="btn btn-lime" href="#audit"><span data-l="ar">اطلب تحليل مجاني لصفحتك</span><span data-l="en">Get a free page audit</span></a>
+          <a class="btn btn-ghost" href="#package"><span data-l="ar">شوف الباقة</span><span data-l="en">See the package</span></a>
+        </div>
+        <div class="chips hero-fade d3"><span class="chip">Egypt</span><span class="chip">Kuwait</span><span class="chip">UAE</span><span class="chip">KSA</span></div>
+      </div>
+
+      <div class="stage hero-fade d4">
+        <a class="badge" href="#audit" aria-label="Free audit">
+          <svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="circ" d="M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0"/></defs><text><textPath href="#circ" textLength="290">STOP RANDOM ✦ START GROWTH ✦ FREE AUDIT ✦</textPath></text></svg>
+          <span aria-hidden="true">↓</span>
+        </a>
+        <div class="phone" id="phone" aria-hidden="true">
+          <div class="screen">
+            <div class="p-head">
+              <div class="avatar"><span>R</span></div>
+              <div class="p-name">your.brand<small>Beauty · Clinic · Home</small></div>
+            </div>
+            <div class="p-bio" dir="auto"><span id="type"></span><span class="caret"></span></div>
+            <div class="p-btns"><span data-l="ar">احجز الآن</span><span data-l="en">Book now</span><span>WhatsApp</span></div>
+            <div class="hl"><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="tiles"><i style="--i:0" class="r"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4" class="r"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8" class="r"></i></div>
+          </div>
+        </div>
+        <div class="toast t1" aria-hidden="true"><b>💬</b><span><span data-l="ar">رسالة جديدة: «عايزة أحجز»</span><span data-l="en">New DM: “I’d like to book”</span></span></div>
+        <div class="toast t2" aria-hidden="true"><b>🛒</b><span><span data-l="ar">طلب جديد من الواتساب</span><span data-l="en">New order via WhatsApp</span></span></div>
+        <div class="toast t3" aria-hidden="true"><b>♥</b><span><span data-l="ar">الريل بيوصل لناس جديدة</span><span data-l="en">Your Reel is reaching new people</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tapes" aria-hidden="true">
+    <div class="tape b"><div class="track" id="trackB"></div></div>
+    <div class="tape a"><div class="track" id="trackA"></div></div>
+  </div>
+
+  <section class="band">
+    <div class="wrap">
+      <p class="kicker rv"><span data-l="ar">المشكلة والحل</span><span data-l="en">Problem &amp; solution</span></p>
+      <h2 class="h-display h2 rv"><span data-l="ar">بتنزّل كل يوم… <span class="lime">والعملاء فين؟</span></span><span data-l="en">Posting every day… <span class="lime">where are the customers?</span></span></h2>
+      <div class="grid2">
+        <div class="card rv tilt">
+          <h3><span data-l="ar">اللي بيحصل غالبًا</span><span data-l="en">What usually happens</span></h3>
+          <ul class="x-list">
+            <li><span class="mark x">✕</span><span><span data-l="ar">محتوى من غير هدف واضح</span><span data-l="en">Content with no clear goal</span></span></li>
+            <li><span class="mark x">✕</span><span><span data-l="ar">بايو وهايلايتس ما بتقولش تطلب إزاي</span><span data-l="en">A bio and highlights that don't say how to order</span></span></li>
+            <li><span class="mark x">✕</span><span><span data-l="ar">حد بيسلّم الشغل ويختفي</span><span data-l="en">Someone delivers posts and disappears</span></span></li>
+          </ul>
+        </div>
+        <div class="card hot rv tilt">
+          <h3><span data-l="ar">اللي بنعمله</span><span data-l="en">What we do instead</span></h3>
+          <ul class="ok-list">
+            <li><span class="mark ok">✓</span><span><span data-l="ar">نفهم البيزنس والعميل بتاعك الأول</span><span data-l="en">Understand your business and customer first</span></span></li>
+            <li><span class="mark ok">✓</span><span><span data-l="ar">صفحة واضحة: بتبيع إيه، وتطلب إزاي</span><span data-l="en">A clear page: what you sell and how to order</span></span></li>
+            <li><span class="mark ok">✓</span><span><span data-l="ar">نشتغل كأننا جزء من فريقك، كل شهر</span><span data-l="en">Work as part of your team, every month</span></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="kicker rv"><span data-l="ar">جرّب بنفسك</span><span data-l="en">Try it</span></p>
+      <h2 class="h-display h2 rv"><span data-l="ar">اسحب وشوف الفرق</span><span data-l="en">Drag to see the difference</span></h2>
+      <div class="ba rv" id="ba" style="--cut:50%">
+        <div class="ba-pane ba-before">
+          <span class="ba-label"><span data-l="ar">قبل</span><span data-l="en">Before</span></span>
+          <div class="bio">Welcome to our page ❤️<br>Best quality &amp; best prices 🔥<br>DM for more info</div>
+        </div>
+        <div class="ba-pane ba-after">
+          <span class="ba-label"><span data-l="ar">بعد</span><span data-l="en">After</span></span>
+          <div class="bio"><span data-l="ar">صالون سيدات · السالمية 💅<br>شعر · أظافر · بشرة<br>احجزي من الواتساب 👇</span><span data-l="en">Ladies salon · Salmiya 💅<br>Hair · Nails · Skin<br>Book on WhatsApp 👇</span></div>
+        </div>
+        <div class="handle" aria-hidden="true"></div>
+        <input type="range" id="ba-range" min="0" max="100" value="50" aria-label="Before and after slider">
+      </div>
+      <p class="note"><span data-l="ar">مثال توضيحي لبايو صالون.</span><span data-l="en">Illustrative example of a salon bio.</span></p>
+    </div>
+  </section>
+
+  <section class="band" id="package">
+    <div class="wrap">
+      <p class="kicker rv"><span data-l="ar">الباقة الشهرية</span><span data-l="en">Monthly package</span></p>
+      <h2 class="h-display h2 rv"><span data-l="ar">كل اللي صفحتك محتاجاه، <span class="lime">في باقة واحدة.</span></span><span data-l="en">Everything your page needs, <span class="lime">in one package.</span></span></h2>
+      <div class="pkg rv">
+        <div class="pkg-price">
+          <div class="price"><span data-count="12">12</span> <span class="plus">+</span> <span data-count="6">6</span></div>
+          <div class="per"><span data-l="ar">بوست وريلز كل شهر، باشتراك شهري</span><span data-l="en">posts and Reels every month, on a monthly plan</span></div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <a class="btn btn-lime" href="https://wa.me/201041972524" target="_blank" rel="noopener"><span data-l="ar">اسأل عن السعر</span><span data-l="en">Ask for pricing</span></a>
+            <a class="btn btn-ghost" href="#audit" style="border-color:rgba(255,255,255,.5)"><span data-l="ar">تحليل مجاني</span><span data-l="en">Free audit</span></a>
+          </div>
+        </div>
+        <div class="pkg-body">
+          <div>
+            <h3><span data-l="ar">الباقة فيها</span><span data-l="en">Included</span></h3>
+            <ul class="ok-list">
+              <li><span class="mark ok">✓</span><span><span data-l="ar"><b>12 بوست</b> مصمم على هوية البراند</span><span data-l="en"><b>12 posts</b> designed in your brand style</span></span></li>
+              <li><span class="mark ok">✓</span><span><span data-l="ar"><b>6 ريلز</b> مونتاج من فيديوهاتك</span><span data-l="en"><b>6 Reels</b> edited from your footage</span></span></li>
+              <li><span class="mark ok">✓</span><span><span data-l="ar">نشر على الصفحة بجدول ثابت</span><span data-l="en">Publishing on a fixed calendar</span></span></li>
+              <li><span class="mark ok">✓</span><span><span data-l="ar">تظبيط البايو والهايلايتس</span><span data-l="en">Bio and highlights setup</span></span></li>
+            </ul>
+          </div>
+          <div>
+            <h3><span data-l="ar">مش ضمن الباقة</span><span data-l="en">Not included</span></h3>
+            <ul class="x-list">
+              <li><span class="mark x">✕</span><span><span data-l="ar">الرد على الرسايل والكومنتات</span><span data-l="en">Replying to messages and comments</span></span></li>
+              <li><span class="mark x">✕</span><span><span data-l="ar">إدارة الإعلانات الممولة</span><span data-l="en">Paid ads management</span></span></li>
+              <li><span class="mark x">✕</span><span><span data-l="ar">التصوير في المكان</span><span data-l="en">On-site photo or video shoots</span></span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="kicker rv"><span data-l="ar">إزاي بنشتغل</span><span data-l="en">How we work</span></p>
+      <h2 class="h-display h2 rv"><span data-l="ar">أربع خطوات، <span class="lime">من غير لف ودوران.</span></span><span data-l="en">Four steps. <span class="lime">No guesswork.</span></span></h2>
+      <ol class="steps stagger">
+        <li class="rv tilt"><h3><span data-l="ar">تحليل مجاني</span><span data-l="en">Free audit</span></h3><p><span data-l="ar">نبص على صفحتك ونبعتلك 3 تعديلات واضحة خلال 48 ساعة.</span><span data-l="en">We study your page and send 3 clear fixes within 48 hours.</span></p></li>
+        <li class="rv tilt"><h3><span data-l="ar">خطة الشهر</span><span data-l="en">Monthly plan</span></h3><p><span data-l="ar">أفكار البوستات والريلز ومواعيد النشر، وتوافق عليها قبل التنفيذ.</span><span data-l="en">Post and Reel ideas plus a schedule, approved by you first.</span></p></li>
+        <li class="rv tilt"><h3><span data-l="ar">التنفيذ</span><span data-l="en">Production</span></h3><p><span data-l="ar">تصميم ومونتاج ونشر في المواعيد، مع جولة تعديل لكل بوست.</span><span data-l="en">Design, editing and publishing on time, with one revision round per post.</span></p></li>
+        <li class="rv tilt"><h3><span data-l="ar">تقرير الشهر</span><span data-l="en">Monthly report</span></h3><p><span data-l="ar">إيه اللي اشتغل، وإيه اللي هنغيّره الشهر الجاي.</span><span data-l="en">What worked, and what we change next month.</span></p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <p class="kicker rv"><span data-l="ar">الخدمات</span><span data-l="en">Services</span></p>
+      <h2 class="h-display h2 rv"><span data-l="ar">ولما تكبر، <span class="lime">إحنا موجودين.</span></span><span data-l="en">And when you grow, <span class="lime">we grow with you.</span></span></h2>
+      <div class="svc stagger">
+        <div class="card rv tilt"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></div><h3><span data-l="ar">إدارة السوشيال</span><span data-l="en">Social media management</span></h3><p><span data-l="ar">خطة ونشر ومتابعة.</span><span data-l="en">Planning, publishing, follow-up.</span></p></div>
+        <div class="card rv tilt"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="15" height="14" rx="3"/><path d="M17 10l5-3v10l-5-3"/></svg></div><h3><span data-l="ar">محتوى وريلز</span><span data-l="en">Content &amp; Reels</span></h3><p><span data-l="ar">بوستات وكاروسيل وفيديو قصير.</span><span data-l="en">Posts, carousels and short video.</span></p></div>
+        <div class="card rv tilt"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><h3><span data-l="ar">إعلانات ممولة</span><span data-l="en">Paid ads</span></h3><p><span data-l="ar">حملات Meta بتتقاس بالنتيجة.</span><span data-l="en">Meta campaigns measured by results.</span></p></div>
+        <div class="card rv tilt"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7 7 .6-5.3 4.6L18.4 21 12 17.3 5.6 21l1.7-6.8L2 9.6 9 9z"/></svg></div><h3><span data-l="ar">هوية بصرية</span><span data-l="en">Branding</span></h3><p><span data-l="ar">لوجو وألوان وقوالب.</span><span data-l="en">Logo, colors and templates.</span></p></div>
+        <div class="card rv tilt"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></div><h3><span data-l="ar">استراتيجية تسويق</span><span data-l="en">Marketing strategy</span></h3><p><span data-l="ar">خطة مبنية على تحليل سوقك.</span><span data-l="en">A plan built on your market.</span></p></div>
+        <div class="card rv tilt"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M2 9h20"/><path d="M6 6.5h.01M9 6.5h.01"/></svg></div><h3><span data-l="ar">صفحات ومواقع</span><span data-l="en">Websites</span></h3><p><span data-l="ar">صفحات بسيطة تحوّل الزيارة لطلب.</span><span data-l="en">Simple pages that turn visits into orders.</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <p class="kicker rv"><span data-l="ar">شغلنا</span><span data-l="en">Our work</span></p>
+      <h2 class="h-display h2 rv"><span data-l="ar">من شغل الفريق</span><span data-l="en">Selected work</span></h2>
+      <div class="tabs rv" role="group" aria-label="Filter">
+        <button type="button" id="f-all" data-filter="all" aria-pressed="true"><span data-l="ar">الكل</span><span data-l="en">All</span></button>
+        <button type="button" id="f-social" data-filter="social" aria-pressed="false"><span data-l="ar">سوشيال</span><span data-l="en">Social</span></button>
+        <button type="button" id="f-video" data-filter="video" aria-pressed="false"><span data-l="ar">فيديو</span><span data-l="en">Video</span></button>
+        <button type="button" id="f-brand" data-filter="brand" aria-pressed="false"><span data-l="ar">هوية</span><span data-l="en">Branding</span></button>
+      </div>
+      <div class="works" id="works"></div>
+      <div class="empty rv" id="works-empty" hidden>
+        <p><span data-l="ar">بنحدّث معرض الأعمال دلوقتي. اطلب نماذج من شغلنا في نفس مجالك على الواتساب، ونبعتها لك على طول.</span><span data-l="en">We're updating the gallery. Ask on WhatsApp for samples from your industry and we'll send them right away.</span></p>
+        <a class="btn btn-lime" href="https://wa.me/201041972524" target="_blank" rel="noopener"><span data-l="ar">اطلب نماذج</span><span data-l="en">Request samples</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band audit-sec" id="audit">
+    <div class="blob b1"></div><div class="blob b2"></div>
+    <div class="wrap audit">
+      <div class="rv">
+        <p class="kicker"><span data-l="ar">تحليل مجاني</span><span data-l="en">Free audit</span></p>
+        <h2 class="h-display h2"><span data-l="ar">3 تعديلات. 48 ساعة. <span class="glow-text">ببلاش.</span></span><span data-l="en">3 fixes. 48 hours. <span class="glow-text">Free.</span></span></h2>
+        <p class="lead"><span data-l="ar">اكتب اسمك وحساب صفحتك، ونجهز لك رسالة واتساب جاهزة تبعتها لنا بضغطة.</span><span data-l="en">Add your name and page, and we'll prepare a WhatsApp message you can send us in one tap.</span></p>
+      </div>
+      <form id="audit-form" class="rv" novalidate>
+        <label for="f-name"><span data-l="ar">الاسم</span><span data-l="en">Name</span><input id="f-name" name="name" autocomplete="name" required></label>
+        <label for="f-ig"><span data-l="ar">حساب الإنستجرام</span><span data-l="en">Instagram account</span><input id="f-ig" name="ig" placeholder="@yourpage" dir="ltr" required></label>
+        <label for="f-country"><span data-l="ar">الدولة</span><span data-l="en">Country</span>
+          <select id="f-country" name="country">
+            <option value="Kuwait">Kuwait · الكويت</option>
+            <option value="UAE">UAE · الإمارات</option>
+            <option value="KSA">KSA · السعودية</option>
+            <option value="Egypt">Egypt · مصر</option>
+          </select>
+        </label>
+        <button class="btn btn-lime" type="submit"><span data-l="ar">جهّز الرسالة</span><span data-l="en">Prepare my message</span></button>
+        <div class="out" id="out" aria-live="polite">
+          <span id="out-msg" style="font-size:14px;color:var(--muted)"></span>
+          <a class="btn btn-lime" id="out-link" href="https://wa.me/201041972524" target="_blank" rel="noopener"><span data-l="ar">افتح واتساب وابعت</span><span data-l="en">Open WhatsApp and send</span></a>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="big-slogan rv">Stop Random.<br><span class="glow-text">Start Growth.</span></p>
+    <div class="row">
+      <div class="contact-row">
+        <span class="copy-field" id="wa-num">+20 104 197 2524</span>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy="wa-num"><span data-l="ar">نسخ الرقم</span><span data-l="en">Copy number</span></button>
+        <span class="copy-field" id="mail">randomagency09@gmail.com</span>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy="mail"><span data-l="ar">نسخ الإيميل</span><span data-l="en">Copy email</span></button>
+        <a class="btn btn-ghost btn-sm" href="https://www.instagram.com/random_agency_/" target="_blank" rel="noopener">Instagram ↗</a>
+      </div>
+      <span class="muted-sm">© Random Growth Agency</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // Portfolio items go here once the team's designs are ready: { src: 'work/x.jpg', type: 'social' | 'video' | 'brand' }
+  const WORK = [];
+
+  const root = document.documentElement;
+  root.classList.add('js');
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  function store(k, v) { try { v === undefined ? null : localStorage.setItem(k, v); return localStorage.getItem(k); } catch (e) { return null; } }
+
+  // phone bio types itself out, in the active language
+  const BIO = {
+    ar: ['صالون سيدات · السالمية 💅', 'شعر · أظافر · بشرة', 'احجزي من الواتساب 👇'],
+    en: ['Ladies salon · Salmiya 💅', 'Hair · Nails · Skin', 'Book on WhatsApp 👇']
+  };
+  const typeEl = document.getElementById('type');
+  let typeTimer = null;
+  function typeBio(l) {
+    clearTimeout(typeTimer);
+    const full = BIO[l].join('\n');
+    if (calm) { typeEl.innerText = full; return; }
+    let i = 0;
+    (function step() {
+      typeEl.innerText = full.slice(0, i);
+      if (i++ < full.length) typeTimer = setTimeout(step, 45);
+      else typeTimer = setTimeout(() => { i = 0; step(); }, 4200);
+    })();
+  }
+
+  function setLang(l) {
+    root.setAttribute('data-lang', l);
+    root.setAttribute('lang', l);
+    root.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr');
+    document.querySelectorAll('[data-set-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.setLang === l)));
+    store('rnd-lang', l);
+    typeBio(l);
+  }
+  const hash = (location.hash || '').replace('#', '');
+  setLang(hash === 'en' || hash === 'ar' ? hash : (store('rnd-lang') || 'ar'));
+  document.querySelectorAll('[data-set-lang]').forEach(b => b.addEventListener('click', () => setLang(b.dataset.setLang)));
+
+  requestAnimationFrame(() => requestAnimationFrame(() => document.getElementById('hero').classList.add('loaded')));
+
+  // marquee tapes
+  const WORDS_A = ['Social Media', 'Reels', 'Content', 'Branding', 'Paid Ads', 'Strategy', 'Websites'];
+  const WORDS_B = ['Stop Random', 'Start Growth', 'Egypt', 'Kuwait', 'UAE', 'KSA'];
+  function fillTrack(id, words) {
+    const t = document.getElementById(id);
+    for (let r = 0; r < 4; r++) words.forEach(w => { const s = document.createElement('span'); s.textContent = w; t.appendChild(s); const i = document.createElement('i'); i.textContent = '✦'; t.appendChild(i); });
+  }
+  fillTrack('trackA', WORDS_A);
+  fillTrack('trackB', WORDS_B);
+
+  // stagger children
+  document.querySelectorAll('.stagger').forEach(g => [...g.children].forEach((c, i) => c.style.setProperty('--d', (i * 0.09) + 's')));
+
+  // count-up
+  function countUp(el) {
+    const to = +el.dataset.count;
+    if (calm) { el.textContent = to; return; }
+    const t0 = performance.now();
+    (function tick(t) {
+      const p = Math.min(1, (t - t0) / 1200);
+      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+
+  // before/after demo sweep when it first appears
+  const ba = document.getElementById('ba');
+  const range = document.getElementById('ba-range');
+  let touched = false;
+  range.addEventListener('input', () => { touched = true; ba.style.setProperty('--cut', range.value + '%'); });
+  function demoSweep() {
+    if (calm || touched) return;
+    const keys = [50, 22, 78, 50];
+    const t0 = performance.now(), seg = 700;
+    (function tick(t) {
+      if (touched) return;
+      const k = Math.min(keys.length - 1.0001, (t - t0) / seg);
+      const i = Math.floor(k), f = k - i, e = f < .5 ? 2 * f * f : 1 - Math.pow(-2 * f + 2, 2) / 2;
+      const v = keys[i] + (keys[i + 1] - keys[i]) * e;
+      ba.style.setProperty('--cut', v + '%'); range.value = v;
+      if ((t - t0) / seg < keys.length - 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+
+  // scroll reveal
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver(entries => entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    const el = en.target;
+    el.classList.add('in');
+    el.querySelectorAll('[data-count]').forEach(countUp);
+    if (el === ba) setTimeout(demoSweep, 500);
+    io.unobserve(el);
+  }), { threshold: .15, rootMargin: '0px 0px -6% 0px' }) : null;
+  document.querySelectorAll('.rv').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+
+  // scroll progress
+  const bar = document.getElementById('progress');
+  function onScroll() { const h = document.documentElement.scrollHeight - innerHeight; bar.style.setProperty('--p', h > 0 ? (scrollY / h).toFixed(4) : 0); }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // pointer effects: page glow, card spotlight + tilt, phone parallax
+  if (finePointer && !calm) {
+    const glow = document.getElementById('glow');
+    addEventListener('pointermove', e => { glow.style.setProperty('--cx', e.clientX + 'px'); glow.style.setProperty('--cy', e.clientY + 'px'); }, { passive: true });
+    document.querySelectorAll('.tilt').forEach(c => {
+      c.addEventListener('pointermove', e => {
+        const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        c.style.setProperty('--mx', (x * 100) + '%'); c.style.setProperty('--my', (y * 100) + '%');
+        c.style.transform = `perspective(800px) rotateX(${(.5 - y) * 6}deg) rotateY(${(x - .5) * 6}deg) translateY(-3px)`;
+      });
+      c.addEventListener('pointerleave', () => { c.style.transform = ''; });
+    });
+    const phone = document.getElementById('phone');
+    const hero = document.getElementById('hero');
+    hero.addEventListener('pointermove', e => {
+      const r = hero.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      phone.style.translate = `${x * 18}px ${y * 18}px`; phone.style.rotate = `y ${x * 14}deg`;
+    });
+    hero.addEventListener('pointerleave', () => { phone.style.translate = ''; phone.style.rotate = ''; });
+  }
+
+  // portfolio
+  const works = document.getElementById('works');
+  const empty = document.getElementById('works-empty');
+  function renderWork(f) {
+    const items = WORK.filter(w => f === 'all' || w.type === f);
+    works.innerHTML = '';
+    items.forEach((w, n) => { const d = document.createElement('div'); d.className = 'work'; d.style.animationDelay = (n * 0.06) + 's'; const i = document.createElement('img'); i.src = w.src; i.alt = ''; i.loading = 'lazy'; d.appendChild(i); works.appendChild(d); });
+    works.hidden = items.length === 0;
+    empty.hidden = items.length !== 0;
+    document.querySelectorAll('[data-filter]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === f)));
+  }
+  renderWork('all');
+  document.querySelectorAll('[data-filter]').forEach(b => b.addEventListener('click', () => renderWork(b.dataset.filter)));
+  works.addEventListener('contextmenu', e => e.preventDefault());
+
+  document.getElementById('audit-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('f-name').value.trim();
+    const ig = document.getElementById('f-ig').value.trim();
+    const country = document.getElementById('f-country').value;
+    const ar = root.getAttribute('data-lang') === 'ar';
+    const msgEl = document.getElementById('out-msg');
+    if (!name || !ig) { msgEl.textContent = ar ? 'اكتب الاسم وحساب الإنستجرام الأول.' : 'Please add your name and Instagram account first.'; document.getElementById('out').classList.add('show'); document.getElementById('out-link').hidden = true; return; }
+    const text = ar ? `السلام عليكم، أنا ${name} من ${country}. حابب تحليل مجاني لصفحتي ${ig} 🙌` : `Hi, I'm ${name} from ${country}. I'd like a free audit of my page ${ig} 🙌`;
+    document.getElementById('out-link').href = 'https://wa.me/201041972524?text=' + encodeURIComponent(text);
+    document.getElementById('out-link').hidden = false;
+    msgEl.textContent = (ar ? 'رسالتك جاهزة: ' : 'Your message is ready: ') + text;
+    document.getElementById('out').classList.add('show');
+  });
+
+  document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', () => {
+    const el = document.getElementById(b.dataset.copy);
+    const done = () => { const t = b.innerHTML; b.textContent = root.getAttribute('data-lang') === 'ar' ? 'اتنسخ ✓' : 'Copied ✓'; setTimeout(() => { b.innerHTML = t; }, 1500); };
+    const select = () => { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(el.textContent.trim()).then(done, select); else select();
+  }));
+})();
+</script>
+</body>
+</html>
