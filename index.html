@@ -165,6 +165,39 @@ html[data-lang="en"] .toast { font-family: var(--font-en); font-size: 11.5px; }
 .badge span { width: 38px; height: 38px; border-radius: 50%; background: var(--lime); color: var(--on-lime); display: grid; place-items: center; font: 900 18px/1 var(--font-en); transition: transform .3s var(--ease); }
 .badge:hover span { transform: rotate(-45deg) scale(1.1); }
 
+/* Algo, the brand hero (low-poly cut-outs, cropped at the hips, so always bottom-anchored with a fade) */
+.algo-img { display: block; width: 100%; height: auto; -webkit-mask-image: linear-gradient(#000 80%, transparent 99%); mask-image: linear-gradient(#000 80%, transparent 99%); pointer-events: none; user-select: none; }
+.stage.with-algo { max-width: 500px; padding-top: 30px; padding-bottom: 0; }
+.stage.with-algo .phone { width: 220px; margin-inline-start: 0; margin-inline-end: auto; margin-bottom: 90px; z-index: 0; }
+.algo-hero { position: absolute; z-index: 2; bottom: -72px; inset-inline-end: -40px; width: 76%; }
+.algo-hero::before { content: ""; position: absolute; inset: 20% 5% 10%; border-radius: 50%; background: radial-gradient(circle, rgba(141,254,0,.28), transparent 65%); filter: blur(20px); }
+.algo-hero img { position: relative; }
+.stage.with-algo .badge { bottom: auto; top: 0; }
+.stage.with-algo .toast { z-index: 3; }
+.stage.with-algo .toast.t2 { top: 14%; }
+.meet { background: radial-gradient(120% 90% at 85% 0%, #9d6bff 0%, var(--purple) 35%, var(--purple-deep) 100%); overflow: hidden; padding-bottom: 0; }
+.meet::after { content: 'ALGO'; position: absolute; inset: auto auto -40px -10px; font: 900 clamp(120px, 26vw, 300px)/1 var(--font-en); letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,.12); pointer-events: none; }
+.meet .kicker, .meet .lime { color: var(--lime); }
+.meet .lead { color: rgba(255,255,255,.9); }
+.meet-grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 28px; align-items: end; }
+.meet-text { padding-bottom: 72px; }
+.meet .h2 .lime { text-shadow: 0 5px 0 #1D2331; }
+.idcard { margin-top: 26px; display: grid; background: rgba(29,35,49,.55); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.18); border-radius: 22px; padding: 6px 22px; max-width: 520px; }
+.idcard div { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.12); }
+.idcard div:last-child { border-bottom: 0; }
+.idcard dt { color: var(--lime); font-weight: 800; font-size: 14px; }
+.idcard dd { margin: 0; font-weight: 700; font-size: 17px; }
+.meet-pic { position: relative; container-type: inline-size; justify-self: center; width: 100%; max-width: 400px; }
+.meet-pic .algo-img { -webkit-mask-image: none; mask-image: none; }
+.clip-name { position: absolute; left: 61.5%; top: 41%; width: 26%; transform: rotate(6deg); display: grid; justify-items: center; gap: 1.6cqw; color: #1D2331; }
+.clip-name b { font: 400 9.5cqw/1.1 var(--font-display-ar); }
+.clip-name i { display: block; height: 1.4cqw; border-radius: 9px; background: var(--purple); width: 100%; }
+.clip-name i + i { width: 70%; background: var(--lime); }
+.algo-audit { display: flex; align-items: flex-end; gap: 14px; margin-top: 22px; }
+.algo-audit .algo-img { width: 210px; flex: none; }
+.algo-audit .say { position: relative; max-width: 220px; margin-bottom: 70px; background: #fff; color: #1D2331; font-weight: 800; font-size: 16px; padding: 12px 16px 10px; border-radius: 18px; border-end-start-radius: 4px; box-shadow: 4px 4px 0 var(--purple); }
+html[data-lang="en"] .algo-audit .say { font-family: var(--font-en); font-size: 14px; }
+
 /* marquee tapes */
 .tapes { position: relative; z-index: 2; display: grid; padding-block: 34px; overflow: hidden; background: linear-gradient(var(--bg), var(--band)); }
 .tape { grid-area: 1 / 1; margin-inline: -40px; overflow: hidden; white-space: nowrap; direction: ltr; padding-block: 13px; font: 900 clamp(18px, 2.6vw, 26px)/1 var(--font-en); text-transform: uppercase; letter-spacing: .02em; }
@@ -303,6 +336,15 @@ footer .wrap > .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: ce
   .phone { width: 230px; }
   .badge { width: 92px; height: 92px; }
   .badge text { font-size: 11px; }
+  .stage.with-algo .phone { width: 190px; margin-bottom: 70px; }
+  .algo-hero { width: 62%; inset-inline-end: -12px; bottom: -56px; }
+  .meet-grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .meet-text { padding-bottom: 0; }
+  .meet-pic { max-width: 300px; }
+  .idcard div { grid-template-columns: 78px minmax(0, 1fr); }
+  .idcard dd { font-size: 16px; }
+  .algo-audit .algo-img { width: 150px; }
+  .algo-audit .say { margin-bottom: 50px; font-size: 15px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -352,7 +394,8 @@ footer .wrap > .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: ce
         <div class="chips hero-fade d3"><span class="chip">Egypt</span><span class="chip">Kuwait</span><span class="chip">UAE</span><span class="chip">KSA</span></div>
       </div>
 
-      <div class="stage hero-fade d4">
+      <div class="stage with-algo hero-fade d4">
+        <div class="algo-hero"><img class="algo-img" src="algo-hero.webp" width="760" height="1103" alt="ألجو، بطل Random" fetchpriority="high"></div>
         <a class="badge" href="#audit" aria-label="Free audit">
           <svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="circ" d="M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0"/></defs><text><textPath href="#circ" textLength="290">STOP RANDOM ✦ START GROWTH ✦ FREE AUDIT ✦</textPath></text></svg>
           <span aria-hidden="true">↓</span>
@@ -402,6 +445,26 @@ footer .wrap > .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: ce
             <li><span class="mark ok">✓</span><span><span data-l="ar">نشتغل كأننا جزء من فريقك، كل شهر</span><span data-l="en">Work as part of your team, every month</span></span></li>
           </ul>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="meet" id="algo">
+    <div class="wrap meet-grid">
+      <div class="meet-text">
+        <p class="kicker rv"><span data-l="ar">البطل بتاعنا</span><span data-l="en">Our hero</span></p>
+        <h2 class="h-display h2 rv"><span data-l="ar">قابلوا <span class="lime">ألجو</span></span><span data-l="en">Meet <span class="lime">Algo</span></span></h2>
+        <p class="lead rv"><span data-l="ar"><b>ألجو = ألجوريذم + الجو.</b> واحد فاهم الألجوريذم، وعامل الجو 😎</span><span data-l="en"><b>Algo = Algorithm + vibe.</b> He gets the algorithm, and he brings the vibe 😎</span></p>
+        <dl class="idcard rv">
+          <div><dt><span data-l="ar">الوظيفة</span><span data-l="en">Job</span></dt><dd><span data-l="ar">فاهم الألجوريذم أكتر من نفسه</span><span data-l="en">Knows the algorithm better than it knows itself</span></dd></div>
+          <div><dt><span data-l="ar">علامته</span><span data-l="en">Look</span></dt><dd><span data-l="ar">جاكيت ليموني ونضارة بينك</span><span data-l="en">Lime jacket, pink glasses</span></dd></div>
+          <div><dt><span data-l="ar">بيكره</span><span data-l="en">Hates</span></dt><dd><span data-l="ar">البوست اللي من غير خطة</span><span data-l="en">Posts with no plan</span></dd></div>
+          <div><dt><span data-l="ar">عدوه</span><span data-l="en">Nemesis</span></dt><dd><span data-l="ar">دكتور راندوم 😈</span><span data-l="en">Doctor Random 😈</span></dd></div>
+        </dl>
+      </div>
+      <div class="meet-pic rv">
+        <img class="algo-img" src="algo-clipboard.webp" width="640" height="983" alt="ألجو ماسك بطاقة باسمه" loading="lazy">
+        <div class="clip-name" aria-hidden="true"><b><span data-l="ar">ألجو</span><span data-l="en">ALGO</span></b><i></i><i></i></div>
       </div>
     </div>
   </section>
@@ -515,6 +578,10 @@ footer .wrap > .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: ce
         <p class="kicker"><span data-l="ar">تحليل مجاني</span><span data-l="en">Free audit</span></p>
         <h2 class="h-display h2"><span data-l="ar">3 تعديلات. 48 ساعة. <span class="glow-text">ببلاش.</span></span><span data-l="en">3 fixes. 48 hours. <span class="glow-text">Free.</span></span></h2>
         <p class="lead"><span data-l="ar">اكتب اسمك وحساب صفحتك، ونجهز لك رسالة واتساب جاهزة تبعتها لنا بضغطة.</span><span data-l="en">Add your name and page, and we'll prepare a WhatsApp message you can send us in one tap.</span></p>
+        <div class="algo-audit">
+          <img class="algo-img" src="algo-phone.webp" width="640" height="913" alt="ألجو ماسك موبايل وبيراجع صفحة" loading="lazy">
+          <p class="say"><span data-l="ar">ابعتلي صفحتك، وأنا أبص عليها بنفسي 👀</span><span data-l="en">Send me your page, I'll check it myself 👀</span></p>
+        </div>
       </div>
       <form id="audit-form" class="rv" novalidate>
         <label for="f-name"><span data-l="ar">الاسم</span><span data-l="en">Name</span><input id="f-name" name="name" autocomplete="name" required></label>
