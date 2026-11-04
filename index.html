@@ -404,15 +404,15 @@ footer .wrap > .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: ce
           <div class="screen">
             <div class="p-head">
               <div class="avatar"><span>R</span></div>
-              <div class="p-name">your.brand<small>Beauty · Clinic · Home</small></div>
+              <div class="p-name">your.brand</div>
             </div>
             <div class="p-bio" dir="auto"><span id="type"></span><span class="caret"></span></div>
-            <div class="p-btns"><span data-l="ar">احجز الآن</span><span data-l="en">Book now</span><span>WhatsApp</span></div>
+            <div class="p-btns"><span data-l="ar">اطلب الآن</span><span data-l="en">Order now</span><span>WhatsApp</span></div>
             <div class="hl"><span></span><span></span><span></span><span></span><span></span></div>
             <div class="tiles"><i style="--i:0" class="r"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4" class="r"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8" class="r"></i></div>
           </div>
         </div>
-        <div class="toast t1" aria-hidden="true"><b>💬</b><span><span data-l="ar">رسالة جديدة: «عايزة أحجز»</span><span data-l="en">New DM: “I’d like to book”</span></span></div>
+        <div class="toast t1" aria-hidden="true"><b>💬</b><span><span data-l="ar">رسالة جديدة: «عايز أطلب»</span><span data-l="en">New DM: “I’d like to order”</span></span></div>
         <div class="toast t2" aria-hidden="true"><b>🛒</b><span><span data-l="ar">طلب جديد من الواتساب</span><span data-l="en">New order via WhatsApp</span></span></div>
         <div class="toast t3" aria-hidden="true"><b>♥</b><span><span data-l="ar">الريل بيوصل لناس جديدة</span><span data-l="en">Your Reel is reaching new people</span></span></div>
       </div>
@@ -480,12 +480,12 @@ footer .wrap > .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: ce
         </div>
         <div class="ba-pane ba-after">
           <span class="ba-label"><span data-l="ar">بعد</span><span data-l="en">After</span></span>
-          <div class="bio"><span data-l="ar">صالون سيدات · السالمية 💅<br>شعر · أظافر · بشرة<br>احجزي من الواتساب 👇</span><span data-l="en">Ladies salon · Salmiya 💅<br>Hair · Nails · Skin<br>Book on WhatsApp 👇</span></div>
+          <div class="bio"><span data-l="ar">متجر هدايا · القاهرة 🎁<br>تغليف · توصيل · طلبات خاصة<br>اطلب من الواتساب 👇</span><span data-l="en">Gift shop · Cairo 🎁<br>Wrapping · Delivery · Custom orders<br>Order on WhatsApp 👇</span></div>
         </div>
         <div class="handle" aria-hidden="true"></div>
         <input type="range" id="ba-range" min="0" max="100" value="50" aria-label="Before and after slider">
       </div>
-      <p class="note"><span data-l="ar">مثال توضيحي لبايو صالون.</span><span data-l="en">Illustrative example of a salon bio.</span></p>
+      <p class="note"><span data-l="ar">مثال توضيحي لبايو متجر.</span><span data-l="en">Illustrative example of a shop bio.</span></p>
     </div>
   </section>
 
@@ -553,7 +553,7 @@ footer .wrap > .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: ce
     </div>
   </section>
 
-  <section id="work">
+  <section id="work" hidden>
     <div class="wrap">
       <p class="kicker rv"><span data-l="ar">شغلنا</span><span data-l="en">Our work</span></p>
       <h2 class="h-display h2 rv"><span data-l="ar">من شغل الفريق</span><span data-l="en">Selected work</span></h2>
@@ -633,8 +633,8 @@ footer .wrap > .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: ce
 
   // phone bio types itself out, in the active language
   const BIO = {
-    ar: ['صالون سيدات · السالمية 💅', 'شعر · أظافر · بشرة', 'احجزي من الواتساب 👇'],
-    en: ['Ladies salon · Salmiya 💅', 'Hair · Nails · Skin', 'Book on WhatsApp 👇']
+    ar: ['متجر هدايا · القاهرة 🎁', 'تغليف · توصيل · طلبات خاصة', 'اطلب من الواتساب 👇'],
+    en: ['Gift shop · Cairo 🎁', 'Wrapping · Delivery · Custom orders', 'Order on WhatsApp 👇']
   };
   const typeEl = document.getElementById('type');
   let typeTimer = null;
