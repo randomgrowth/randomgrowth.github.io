@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@400;500;700;800&family=Poppins:wght@500;600;700&display=swap">
 <style>
-/* Layout: control room. Top bar with brand + progress, side rail of brands and the 8 stages, main area switches between the map canvas, the roadmap board and the brief form. */
+/* Layout: control room. Top bar with brand + progress, side rail of brands and the 8 stages, main area switches between the map canvas, the roadmap board, the ready content and the brief form. */
 :root {
   color-scheme: dark;
   --bg: #11141D; --panel: #191E2B; --panel-2: #212839; --line: #2D3550; --line-soft: #252C42;
@@ -168,6 +168,27 @@ legend { font-family: var(--f-display); font-size: 20px; padding: 0 6px; }
 .steps8 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; width: 100%; }
 @media (max-width: 700px) { .steps8 { grid-template-columns: repeat(2, minmax(0,1fr)); } }
 .steps8 div { background: var(--panel-2); border-radius: 12px; padding: 8px 10px; font-size: 13px; font-weight: 700; display: flex; gap: 8px; align-items: center; }
+.cwrap { display: flex; flex-direction: column; gap: 12px; }
+.csec { display: flex; flex-direction: column; gap: 10px; }
+.csec > h3 { font-size: 17px; color: var(--fg); font-family: var(--f-display); font-weight: 400; letter-spacing: 0; margin: 0; }
+.lead2 { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.7; }
+.sliders { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.hl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+@media (max-width: 700px) { .sliders, .two-col { grid-template-columns: 1fr; } }
+.sl-l { display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; }
+.sl-track { position: relative; height: 8px; border-radius: 9px; background: var(--panel-2); margin: 8px 0 6px; }
+.sl-track i { position: absolute; top: 50%; width: 16px; height: 16px; border-radius: 50%; background: var(--lime); border: 2px solid var(--brand); transform: translate(50%, -50%); }
+.pcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; }
+.pcard { background: var(--panel-2); border: 1px solid var(--line-soft); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.ph { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.hook { font-weight: 800; font-size: 15px; margin: 0; }
+.cap { white-space: pre-wrap; margin: 0; font-size: 14px; line-height: 1.7; background: var(--panel); border: 1px solid var(--line-soft); border-radius: 10px; padding: 8px 10px; overflow-wrap: anywhere; }
+.btn.copy { padding: 2px 10px; font-size: 12px; border-radius: 9px; }
+.qa { display: flex; flex-direction: column; gap: 8px; }
+.qa > div { background: var(--panel-2); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+.shots { margin: 0; padding-right: 20px; font-size: 13.5px; }
+.shots li { margin-bottom: 6px; }
 .confirm { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--panel-2); border: 1px solid var(--warn); border-radius: 12px; padding: 8px 12px; font-size: 13.5px; }
 </style>
 
@@ -180,12 +201,13 @@ legend { font-family: var(--f-display); font-size: 20px; padding: 0 6px; }
   <div class="shell">
     <aside class="rail">
       <section class="box"><h3><span>البراندات</span><button class="btn ghost" id="newBrandBtn" type="button">+ جديد</button></h3><div class="brands" id="brands"></div></section>
-      <section class="box"><h3><span>مراحل المحرك</span><span class="pct" id="stagepct">0/8</span></h3><ol class="stages" id="stages"></ol></section>
+      <section class="box"><h3><span>مراحل المحرك</span><span class="pct" id="stagepct">0/12</span></h3><ol class="stages" id="stages"></ol></section>
     </aside>
     <main class="main">
       <div class="tabs" role="tablist" id="tabs">
         <button role="tab" data-tab="map" aria-selected="true" type="button">خريطة البراند</button>
         <button role="tab" data-tab="road" aria-selected="false" type="button">الرود ماب</button>
+        <button role="tab" data-tab="content" aria-selected="false" type="button">المحتوى</button>
         <button role="tab" data-tab="brief" aria-selected="false" type="button">بيانات البراند</button>
       </div>
       <div class="status" id="status" aria-live="polite"></div>
@@ -207,6 +229,10 @@ legend { font-family: var(--f-display); font-size: 20px; padding: 0 6px; }
     { id: 's6', name: 'الاتجاه البصري', short: 'البصري' },
     { id: 's7', name: 'المحتوى وأول 30 يوم', short: 'المحتوى' },
     { id: 's8', name: 'الخلاصة والرود ماب', short: 'الرود ماب' },
+    { id: 's9', name: 'دليل نبرة الصوت', short: 'نبرة الصوت' },
+    { id: 's10', name: 'بوستات الشهر', short: 'البوستات' },
+    { id: 's11', name: 'سكريبتات الريلز', short: 'الريلز' },
+    { id: 's12', name: 'البروفايل والردود', short: 'البروفايل' },
   ];
   const FIELDS = [
     { g: 'البراند', items: [
@@ -238,7 +264,8 @@ Hard rules:
 - Use only facts from the BRIEF and EARLIER STAGES. Never invent numbers, prices, follower counts, sales, results, awards or facts about competitors. When the brief does not say something, say it is unknown or turn it into a question.
 - Label any inference as an inference (استنتاج).
 - Never claim "الأفضل" or "رقم 1", never promise results. Clinics and health: no treatment promises.
-- Respect every length limit (characters). Never use the ellipsis character.
+- Respect every length limit (characters). Never use the ellipsis character. Never use hashtags.
+- Before you reply, check your JSON against every rule, count and length limit, and fix what breaks them.
 - Reply with only one JSON object in exactly the requested shape. No other text.`;
 
   const TASKS = {
@@ -246,8 +273,8 @@ Hard rules:
 SHAPE: {"one_liner": "<=160 chars: what they sell, to whom, roughly at what price, and why now", "facts": [{"claim": "<=90", "src": "client|infer|unknown"}] (6 to 10 items), "gaps": ["<=90 a question to ask the client"] (0 to 5)}`,
     s2: `STAGE 2, what the customer really buys (jobs to be done) and who the brand is for. Phrase jobs the way a customer would say them.
 SHAPE: {"jobs": {"headline": ["<=28", "<=28"], "functional": {"text": "<=150", "evidence": "<=70 where this came from"}, "emotional": {"text": "<=150", "evidence": "<=70"}, "social": {"text": "<=150", "evidence": "<=70"}}, "audience": {"headline": ["<=28", "<=28"], "ideal": {"name": "<=22", "points": ["<=70" x4]}, "not": {"name": "<=22", "points": ["<=70" x3]}}}`,
-    s3: `STAGE 3, market map from the competitors named in the brief only. For anything the brief does not say about a competitor write "مش معروف من البريف". No judgement of their sales or ads.
-SHAPE: {"market": {"headline": ["<=28", "<=28"], "competitors": [{"name": "<=22", "does": "<=90 how they present themselves", "gap": "<=90 what is missing"}] (exactly 3; if fewer are known use "منافس مش معروف" and say what to find out), "pattern": "<=150 what all of them repeat", "whitespace": "<=150 the empty place the brand can own"}}`,
+    s3: `STAGE 3, market map. If you can search the web, look up each competitor named in the brief (their Instagram, Facebook, Google Maps listing or site); if fewer than 3 are named, find direct competitors in the same city and category until there are 3. Use only what you actually saw, and put the link and the date you saw it in "seen". If you cannot search, use the brief only and write "مش معروف من البريف" for anything it does not say. Never judge their sales or ad results.
+SHAPE: {"market": {"headline": ["<=28", "<=28"], "competitors": [{"name": "<=22", "does": "<=90 how they present themselves", "gap": "<=90 what is missing", "seen": "<=120 link and date, or مش معروف من البريف"}] (exactly 3), "pattern": "<=150 what all of them repeat", "whitespace": "<=150 the empty place the brand can own"}}`,
     s4: `STAGE 4, positioning. One sentence that makes price comparison hard. Two axes the customer actually feels. Place the 3 competitors and the brand (0-100 each axis, brand marked self).
 SHAPE: {"position": {"headline": ["<=28", "<=28"], "statement": "<=170 in the form: {brand} هو {category} لـ{ideal customer} اللي عايز {job}، عشان {reason to believe}", "only": "<=150 what none of the 3 says", "axes": {"x": ["<=22 low end", "<=22 high end"], "y": ["<=22 low end", "<=22 high end"]}, "points": [{"name": "<=22", "x": 0, "y": 0}, {"name": "brand name", "x": 0, "y": 0, "self": true}]}}`,
     s5: `STAGE 5, personality and voice. If the brand were a person. 3 words, 1 forbidden word, 3 pairs of "we don't say / we say" sentences from the client's real field that can be posted as is.
@@ -258,7 +285,17 @@ SHAPE: {"visual": {"headline": ["<=28", "<=28"], "rules_headline": ["<=28", "<=2
 SHAPE: {"content": {"headline": ["<=28", "<=28"], "pillars": [{"name": "<=22", "share": 40, "what": "<=80", "hook": "<=45 example post hook"}] (3 or 4)}, "plan": {"headline": ["<=28", "<=28"], "weeks": [{"title": "<=22", "items": ["<=45" x3]}] (4)}}`,
     s8: `STAGE 8, summary, next step and a 90-day roadmap of 4 phases (weeks "1-2", "3-4", "5-8", "9-13"). Each phase has a goal and 3 to 5 concrete tasks; owner is "Random" for agency work or "العميل" for what the client must do (shoot, approve, send info). Also suggest which package fits (start or growth) and why, for the agency owner only.
 SHAPE: {"summary": {"headline": ["<=28", "<=28"], "problem": "<=150", "opportunity": "<=150", "direction": "<=150"}, "next": {"headline": ["<=28", "<=28"], "steps": ["<=70" x3]}, "roadmap": [{"phase": "<=22", "weeks": "1-2", "goal": "<=110", "tasks": [{"title": "<=70", "owner": "Random|العميل"}]}] (4), "offer": {"package": "البداية|النمو", "why": "<=200"}, "open_questions": ["<=90"] (0 to 5)}`,
+    s9: `STAGE 9, a full tone of voice guide a content writer can follow without asking. Build on the personality and voice stages. All examples in Egyptian Arabic, written for this brand's real field.
+SHAPE: {"tone": {"headline": ["<=28", "<=28"], "summary": "<=200 how the brand sounds, in two lines", "sliders": [{"left": "<=14", "right": "<=14", "value": 50, "note": "<=90"}] (4: رسمي/صاحبي, جد/هزار, هادي/حماسي, بسيط/خبير; value 0 means fully left, 100 fully right), "dialect": "<=150 which dialect and register, and which words stay in English", "we_use": ["<=20"] (8 words or phrases), "we_avoid": ["<=20"] (8), "emoji": "<=120 the emoji rule", "situations": [{"case": "<=30", "example": "<=220 a ready caption or reply"}] (6 cases: بوست عادي, عرض أو خصم, رد على كومنت حلو, رد على شكوى, سؤال عن السعر في الكومنت, تأخير أو مشكلة في الطلب), "checklist": ["<=70"] (5 checks before posting)}}`,
+    s10: (br) => { const n = 12; return `STAGE 10, the first month of feed posts, ready for the designer and for posting. Exactly ${n} posts over 4 weeks, spread across the content pillars by their shares. Captions follow the tone guide, end with one clear call to action and carry no hashtags. The first line must stop the scroll. Never invent prices, offers, products or results: where a post needs one the client has not given, write [من العميل].
+SHAPE: {"posts": [{"n": 1, "week": 1, "pillar": "<=22", "format": "صورة|كاروسيل", "idea": "<=120", "hook": "<=60 the first line", "caption": "<=450 the full caption, starting with the hook", "design": "<=220 brief for the designer: what is on the design and the text on it; slide by slide for a carousel", "cta": "<=40"}] (${n})}`; },
+    s11: (br) => { const r = br.package === 'growth' ? 6 : 2; return `STAGE 11, ${r} short reel scripts (15 to 30 seconds) the client can shoot on a phone; the agency edits the client's footage. Each reel has a hook in the first 2 seconds, 3 to 6 shots, text on screen, an optional voice line, a caption without hashtags, and a clear note of what the client must film.
+SHAPE: {"reels": [{"n": 1, "pillar": "<=22", "title": "<=40", "hook": "<=60", "length": "<=12 like 20 ثانية", "shots": [{"shot": "<=90 what to film", "text": "<=40 text on screen", "voice": "<=90 or empty"}], "caption": "<=300", "shoot_note": "<=150 what the client must film and how"}] (${r})}`; },
+    s12: `STAGE 12, profile and ready replies. The Instagram name field with one search keyword, a bio of 3 to 4 short lines in the brand tone (what they sell, for whom, where, how to order), 5 highlight names with what goes in each, a WhatsApp welcome message, and ready replies to the 10 questions customers most likely ask this kind of business. Never invent prices, hours, addresses, delivery areas or policies: put a placeholder in square brackets for anything the brief does not give.
+SHAPE: {"profile": {"name_field": "<=30", "bio": ["<=40"] (3 to 4 lines), "link_cta": "<=40", "highlights": [{"name": "<=12", "covers": "<=90"}] (5), "whatsapp_welcome": "<=300", "quick_replies": [{"q": "<=60", "a": "<=280"}] (10)}}`,
   };
+  // later stages read only what they need, to keep the prompt short
+  const DEPS = { s9: ['s1', 's2', 's4', 's5'], s10: ['s2', 's4', 's5', 's7', 's9'], s11: ['s2', 's4', 's5', 's7', 's9'], s12: ['s1', 's2', 's4', 's5', 's9'] };
 
   // ---------- small DOM helper (text only, never HTML from data) ----------
   function h(tag, attrs, ...kids) {
@@ -299,6 +336,7 @@ SHAPE: {"summary": {"headline": ["<=28", "<=28"], "problem": "<=150", "opportuni
   const stageOf = (b, id) => (b && b.stages && b.stages[id]) || {};
   const stageStatus = (b, id) => (running && running.brandId === b.id && running.stage === id) ? 'running' : (stageOf(b, id).status || 'idle');
   const doneCount = (b) => STAGES.filter(s => stageOf(b, s.id).status === 'done').length;
+  const coreDone = (b) => STAGES.slice(0, 8).every(s => stageOf(b, s.id).status === 'done');
   const tasksOf = (b) => {
     const rm = arr(stageOf(b, 's8').data && stageOf(b, 's8').data.roadmap);
     const out = [];
@@ -359,7 +397,8 @@ SHAPE: {"summary": {"headline": ["<=28", "<=28"], "problem": "<=150", "opportuni
   }
   function earlierOf(b, upto) {
     const o = {};
-    for (const s of STAGES) { if (s.id === upto) break; const st = stageOf(b, s.id); if (st.status === 'done') o[s.id] = st.data; }
+    const only = DEPS[upto];
+    for (const s of STAGES) { if (s.id === upto) break; if (only && !only.includes(s.id)) continue; const st = stageOf(b, s.id); if (st.status === 'done') o[s.id] = st.data; }
     return o;
   }
   function promptFor(b, sid, note) {
@@ -371,7 +410,7 @@ ${JSON.stringify(briefOf(b), null, 1)}
 EARLIER STAGES:
 ${JSON.stringify(earlierOf(b, sid))}
 
-${TASKS[sid]}${note ? `\n\nEXTRA INSTRUCTION FROM THE AGENCY: ${note}` : ''}`;
+${typeof TASKS[sid] === 'function' ? TASKS[sid](b.brief || {}) : TASKS[sid]}${note ? `\n\nEXTRA INSTRUCTION FROM THE AGENCY: ${note}` : ''}`;
   }
   const ERR = {
     not_granted: 'المحرك محتاج إذن يستخدم Claude. افتح الصفحة تاني ووافق لما يسألك.',
@@ -384,7 +423,7 @@ ${TASKS[sid]}${note ? `\n\nEXTRA INSTRUCTION FROM THE AGENCY: ${note}` : ''}`;
   };
   function valid(sid, d) {
     if (!d || typeof d !== 'object') return false;
-    const need = { s1: ['facts'], s2: ['jobs', 'audience'], s3: ['market'], s4: ['position'], s5: ['personality', 'voice'], s6: ['visual'], s7: ['content', 'plan'], s8: ['summary', 'roadmap'] }[sid];
+    const need = { s1: ['facts'], s2: ['jobs', 'audience'], s3: ['market'], s4: ['position'], s5: ['personality', 'voice'], s6: ['visual'], s7: ['content', 'plan'], s8: ['summary', 'roadmap'], s9: ['tone'], s10: ['posts'], s11: ['reels'], s12: ['profile'] }[sid];
     return need.every(k => d[k] != null);
   }
   function parseReply(text) {
@@ -432,7 +471,7 @@ ${TASKS[sid]}${note ? `\n\nEXTRA INSTRUCTION FROM THE AGENCY: ${note}` : ''}`;
       const ok = await runStage(fresh, s.id);
       if (!ok) return;
     }
-    setStatus('المحرك خلّص المراحل التمانية.');
+    setStatus('المحرك خلّص كل المراحل.');
   }
 
   // ---------- export to strategy.json (for strategy/build.js) ----------
@@ -487,14 +526,14 @@ ${TASKS[sid]}${note ? `\n\nEXTRA INSTRUCTION FROM THE AGENCY: ${note}` : ''}`;
     const pct = tasks.length ? Math.round(done / tasks.length * 100) : 0;
     $('progbar').style.width = pct + '%';
     $('progpct').textContent = pct + '%';
-    $('stagepct').textContent = b ? `${doneCount(b)}/8` : '0/8';
+    $('stagepct').textContent = `${b ? doneCount(b) : 0}/${STAGES.length}`;
     // top actions
     const ta = $('topactions');
     ta.replaceChildren();
     if (b) {
       if (running) ta.append(h('button', { class: 'btn danger', type: 'button', onclick: () => running && running.ctl.abort() }, 'إيقاف'));
-      else ta.append(doneCount(b) === 8 ? h('span', { class: 'chip lime' }, 'المحرك خلّص ✓') : h('button', { class: 'btn primary', type: 'button', disabled: !canWrite, onclick: runMissing }, doneCount(b) ? 'كمّل المحرك' : 'شغّل المحرك'));
-      ta.append(h('button', { class: 'btn', type: 'button', disabled: doneCount(b) < 8, onclick: doExport, title: 'ملف للبريزنتيشن' }, 'صدّر strategy.json'));
+      else ta.append(doneCount(b) === STAGES.length ? h('span', { class: 'chip lime' }, 'المحرك خلّص ✓') : h('button', { class: 'btn primary', type: 'button', disabled: !canWrite, onclick: runMissing }, doneCount(b) ? 'كمّل المحرك' : 'شغّل المحرك'));
+      ta.append(h('button', { class: 'btn', type: 'button', disabled: !coreDone(b), onclick: doExport, title: 'ملف للبريزنتيشن' }, 'صدّر strategy.json'));
     }
     $('newBrandBtn').disabled = !db || !canWrite;
     // brands list
@@ -519,7 +558,7 @@ ${TASKS[sid]}${note ? `\n\nEXTRA INSTRUCTION FROM THE AGENCY: ${note}` : ''}`;
     [...brands].sort((x, y) => str(y.updatedAt).localeCompare(str(x.updatedAt))).forEach(x => {
       list.append(h('button', { type: 'button', class: 'brandrow' + (x.id === currentId ? ' on' : ''), onclick: () => { currentId = x.id; drawerStage = null; manual = null; confirmNew = false; remember(); render(); } },
         h('span', { style: 'min-width:0' }, h('div', { class: 'n' }, str(x.brief && x.brief.name) || 'من غير اسم'), h('div', { class: 's' }, [str(x.brief && x.brief.sector), str(x.brief && x.brief.city)].filter(Boolean).join(' · ') || '—')),
-        h('span', { style: 'display:flex;gap:4px;align-items:center' }, x.example ? h('span', { class: 'tag ex' }, 'مثال') : null, h('span', { class: 'tag' }, `${doneCount(x)}/8`))));
+        h('span', { style: 'display:flex;gap:4px;align-items:center' }, x.example ? h('span', { class: 'tag ex' }, 'مثال') : null, h('span', { class: 'tag' }, `${doneCount(x)}/${STAGES.length}`))));
     });
     // stage rail
     const st = $('stages');
@@ -535,7 +574,7 @@ ${TASKS[sid]}${note ? `\n\nEXTRA INSTRUCTION FROM THE AGENCY: ${note}` : ''}`;
     const view = $('view');
     if (!b) { formBrand = null; view.replaceChildren(emptyView()); renderDrawer(null); return; }
     if (tab === 'brief') { if (formBrand !== b.id || !view.querySelector('.form')) { view.replaceChildren(briefView(b)); formBrand = b.id; } else syncForm(b); }
-    else { formBrand = null; view.replaceChildren(tab === 'road' ? roadView(b) : mapView(b)); }
+    else { formBrand = null; view.replaceChildren(tab === 'road' ? roadView(b) : tab === 'content' ? contentView(b) : mapView(b)); }
     renderDrawer(b);
     renderManual(b);
   }
@@ -570,11 +609,11 @@ ${TASKS[sid]}${note ? `\n\nEXTRA INSTRUCTION FROM THE AGENCY: ${note}` : ''}`;
       await save(fresh.id, patch);
       const nx = manual.chain ? nextMissing(fresh) : null;
       if (nx) { manual = { brandId: fresh.id, sid: nx.id, note: '', chain: true, err: '' }; setStatus(s.name + ' اتحفظت. كمّل المرحلة اللي بعدها.'); }
-      else { manual = null; setStatus(doneCount(fresh) === 8 ? 'المحرك خلّص المراحل التمانية.' : s.name + ' اتحفظت.'); }
+      else { manual = null; setStatus(doneCount(fresh) === STAGES.length ? 'المحرك خلّص كل المراحل.' : s.name + ' اتحفظت.'); }
       render();
     } }, '3. احفظ المرحلة');
     manualEl = h('aside', { class: 'drawer', role: 'dialog', 'aria-label': s.name },
-      h('header', null, h('div', null, h('div', { class: 'nk' }, 'المرحلة ' + (idx + 1) + ' من 8 · نسخ ولصق'), h('h2', null, s.name)),
+      h('header', null, h('div', null, h('div', { class: 'nk' }, 'المرحلة ' + (idx + 1) + ' من ' + STAGES.length + ' · نسخ ولصق'), h('h2', null, s.name)),
         h('button', { class: 'btn', type: 'button', onclick: () => { manual = null; render(); } }, 'اقفل')),
       h('div', { class: 'dbody' },
         h('div', { class: 'kv' }, h('b', null, 'الخطوات'), h('ol', { style: 'margin:0;padding-right:18px' },
@@ -593,7 +632,7 @@ ${TASKS[sid]}${note ? `\n\nEXTRA INSTRUCTION FROM THE AGENCY: ${note}` : ''}`;
   function emptyView() {
     return h('div', { class: 'empty' },
       h('h2', null, 'ادخل البراند، والمحرك يرسم الخريطة'),
-      h('p', null, 'اكتب بيانات البراند من البريف، والمحرك يمشي على 8 مراحل ويرسم خريطة البراند ورود ماب لـ 90 يوم بمهام تتعلّم. كل معلومة بتطلع بمصدرها: قاله العميل، أو استنتاج، أو مش معروف.'),
+      h('p', null, 'اكتب بيانات البراند من البريف، والمحرك يمشي على 12 مرحلة: الاستراتيجية وخريطة البراند، ورود ماب 90 يوم بمهام تتعلّم، ودليل نبرة الصوت، وبوستات الشهر والريلز، والبروفايل والردود الجاهزة. كل معلومة بتطلع بمصدرها: قاله العميل، أو استنتاج، أو مش معروف.'),
       h('div', { class: 'steps8' }, STAGES.map((s, i) => h('div', null, h('span', { class: 'dot' }, String(i + 1)), s.short))),
       h('div', { class: 'actions' },
         h('button', { class: 'btn primary', type: 'button', disabled: !db || !canWrite, onclick: () => newBrand() }, '+ براند جديد'),
@@ -659,12 +698,12 @@ ${TASKS[sid]}${note ? `\n\nEXTRA INSTRUCTION FROM THE AGENCY: ${note}` : ''}`;
 
   // ----- map -----
   const NW = 320, NH = 252, GX = 70, GY = 80;
-  const ORDER = [['core', 's1', 's2'], ['s5', 's4', 's3'], ['s6', 's7', 's8']]; // snake, read right to left
+  const ORDER = [['core', 's1', 's2'], ['s5', 's4', 's3'], ['s6', 's7', 's8'], ['s11', 's10', 's9'], ['s12', null, null]]; // snake, read right to left
   function posOf(id) {
-    for (let r = 0; r < 3; r++) { const c = ORDER[r].indexOf(id); if (c > -1) return { x: (2 - c) * (NW + GX), y: r * (NH + GY) }; }
+    for (let r = 0; r < ORDER.length; r++) { const c = ORDER[r].indexOf(id); if (c > -1) return { x: (2 - c) * (NW + GX), y: r * (NH + GY) }; }
     return { x: 0, y: 0 };
   }
-  const MAPW = 3 * NW + 2 * GX + 40, MAPH = 3 * NH + 2 * GY + 40;
+  const MAPW = 3 * NW + 2 * GX + 40, MAPH = ORDER.length * NH + (ORDER.length - 1) * GY + 40;
   function mapView(b) {
     const wrap = h('div', { class: 'mapwrap', style: 'height:min(78vh, 980px)' });
     const fit = () => Math.min(1, (wrap.clientWidth - 24) / MAPW);
@@ -749,12 +788,119 @@ ${TASKS[sid]}${note ? `\n\nEXTRA INSTRUCTION FROM THE AGENCY: ${note}` : ''}`;
       case 's5': return [h('p', null, h('b', null, str(d.personality && d.personality.archetype))), h('div', { class: 'chips' }, arr(d.personality && d.personality.words).map(w => h('span', { class: 'chip lime' }, str(w))), h('span', { class: 'chip no' }, str(d.personality && d.personality.never)))];
       case 's6': return [h('div', { class: 'sw' }, arr(d.visual && d.visual.colors).map(c => h('i', { style: `background:${hex(c.hex)}`, title: `${str(c.name)} ${str(c.hex)}` }))), h('p', null, str(d.visual && d.visual.type))];
       case 's7': return [h('div', { class: 'pill-bars' }, arr(d.content && d.content.pillars).map(p => h('div', null, h('span', null, str(p.name)), h('i', null, h('b', { style: `width:${Math.max(0, Math.min(100, +p.share || 0))}%` })), h('em', null, (+p.share || 0) + '%'))))];
+      case 's9': return [h('p', null, str(d.tone && d.tone.summary)), h('div', { class: 'chips' }, arr(d.tone && d.tone.we_use).slice(0, 5).map(w => h('span', { class: 'chip lime' }, str(w))))];
+      case 's10': return [h('p', { class: 'nmeta' }, arr(d.posts).length + ' بوست جاهز بالكابشن وبريف التصميم'), ...arr(d.posts).slice(0, 3).map(x => h('p', null, '• ' + str(x.hook)))];
+      case 's11': return [h('p', { class: 'nmeta' }, arr(d.reels).length + ' ريل بالسكريبت واللقطات'), ...arr(d.reels).slice(0, 2).map(x => h('p', null, '• ' + str(x.title || x.hook)))];
+      case 's12': return [...arr(d.profile && d.profile.bio).map(l => h('p', null, str(l))), h('p', { class: 'nmeta' }, arr(d.profile && d.profile.quick_replies).length + ' رد جاهز')];
       case 's8': {
         const tasks = tasksOf(b); const done = tasks.filter(t => b.done && b.done[t.key]).length;
         return [h('p', null, str(d.summary && d.summary.direction)), h('p', { class: 'nmeta' }, `${arr(d.roadmap).length} مراحل · ${done}/${tasks.length} مهمة خلصت`)];
       }
     }
     return [];
+  }
+
+  // ----- content -----
+  function copyText(text, btn) {
+    const ok = () => { const o = btn.textContent; btn.textContent = 'اتنسخ ✓'; setTimeout(() => { btn.textContent = o; }, 1400); };
+    const manualCopy = () => { const ta = h('textarea', { style: 'position:fixed;opacity:0;top:0' }); ta.value = text; document.body.append(ta); ta.select(); let done = false; try { done = document.execCommand('copy'); } catch (e) {} ta.remove(); if (done) ok(); else btn.textContent = 'انسخ بإيدك'; };
+    try { navigator.clipboard.writeText(text).then(ok, manualCopy); } catch (e) { manualCopy(); }
+  }
+  function cpBtn(text, label) { const bt = h('button', { class: 'btn copy', type: 'button' }, label || 'انسخ'); bt.addEventListener('click', () => copyText(text, bt)); return bt; }
+  const clamp = (v) => Math.max(0, Math.min(100, +v || 0));
+  function contentOf(b) {
+    return { tone: (stageOf(b, 's9').data || {}).tone, posts: arr((stageOf(b, 's10').data || {}).posts), reels: arr((stageOf(b, 's11').data || {}).reels), profile: (stageOf(b, 's12').data || {}).profile };
+  }
+  function contentView(b) {
+    const c = contentOf(b);
+    if (!c.tone && !c.posts.length && !c.reels.length && !c.profile) return h('div', { class: 'empty' }, h('h2', null, 'المحتوى لسه ما اتعملش'), h('p', null, 'بيطلع من المراحل 9 لـ 12: دليل نبرة الصوت، وبوستات الشهر، وسكريبتات الريلز، والبروفايل والردود. كمّل المحرك من فوق.'));
+    const sec = (title, extra, ...kids) => h('section', { class: 'box csec' }, h('h3', null, h('span', null, title), extra || null), ...kids);
+    const wrap = h('div', { class: 'cwrap' });
+    wrap.append(h('div', { class: 'actions', style: 'justify-content:space-between;align-items:center' },
+      h('span', { class: 'note' }, 'كل حاجة هنا بتتنسخ بزرار. الأسعار والمواعيد اللي بين [ ] بتتملا من العميل.'),
+      h('button', { class: 'btn', type: 'button', onclick: () => exportContent(b) }, 'صدّر المحتوى كله (ملف للكونتنت)')));
+    if (c.tone) {
+      const t = c.tone;
+      wrap.append(sec('دليل نبرة الصوت', null,
+        h('p', { class: 'lead2' }, str(t.summary)),
+        h('div', { class: 'sliders' }, arr(t.sliders).map(x => h('div', null,
+          h('div', { class: 'sl-l' }, h('span', null, str(x.left)), h('span', null, str(x.right))),
+          h('div', { class: 'sl-track' }, h('i', { style: `right:${clamp(x.value)}%` })),
+          h('p', { class: 'note', style: 'margin:0' }, str(x.note))))),
+        h('div', { class: 'two-col' },
+          h('div', { class: 'kv' }, h('b', null, 'بنقول'), h('div', { class: 'chips' }, arr(t.we_use).map(w => h('span', { class: 'chip lime' }, str(w))))),
+          h('div', { class: 'kv' }, h('b', null, 'مبنقولش'), h('div', { class: 'chips' }, arr(t.we_avoid).map(w => h('span', { class: 'chip no' }, str(w)))))),
+        h('div', { class: 'two-col' },
+          h('div', { class: 'kv' }, h('b', null, 'اللهجة'), h('p', null, str(t.dialect))),
+          h('div', { class: 'kv' }, h('b', null, 'الإيموجي'), h('p', null, str(t.emoji)))),
+        h('div', { class: 'qa' }, arr(t.situations).map(x => h('div', null, h('div', { class: 'ph' }, h('b', null, str(x.case)), cpBtn(str(x.example))), h('p', { class: 'cap' }, str(x.example))))),
+        arr(t.checklist).length ? h('div', { class: 'kv' }, h('b', null, 'قبل ما تنشر'), h('ul', null, arr(t.checklist).map(x => h('li', null, str(x))))) : null));
+    }
+    if (c.profile) {
+      const p = c.profile;
+      const bio = arr(p.bio).map(str).join('\n');
+      wrap.append(sec('البروفايل', null,
+        h('div', { class: 'two-col' },
+          h('div', { class: 'kv' }, h('div', { class: 'ph' }, h('b', null, 'خانة الاسم'), cpBtn(str(p.name_field))), h('p', null, str(p.name_field))),
+          h('div', { class: 'kv' }, h('div', { class: 'ph' }, h('b', null, 'البايو'), cpBtn(bio)), h('p', { class: 'cap' }, bio), p.link_cta ? h('p', { class: 'note' }, 'اللينك: ' + str(p.link_cta)) : null)),
+        h('div', { class: 'kv' }, h('b', null, 'الهايلايتس'), h('div', { class: 'hl-grid' }, arr(p.highlights).map(x => h('div', null, h('span', { class: 'chip' }, str(x.name)), h('p', { class: 'note', style: 'margin:4px 0 0' }, str(x.covers)))))),
+        p.whatsapp_welcome ? h('div', { class: 'kv' }, h('div', { class: 'ph' }, h('b', null, 'رسالة ترحيب واتساب'), cpBtn(str(p.whatsapp_welcome))), h('p', { class: 'cap' }, str(p.whatsapp_welcome))) : null));
+      if (arr(p.quick_replies).length) wrap.append(sec('ردود جاهزة', null, h('div', { class: 'qa' }, arr(p.quick_replies).map(x => h('div', null, h('div', { class: 'ph' }, h('b', null, str(x.q)), cpBtn(str(x.a))), h('p', { class: 'cap' }, str(x.a)))))));
+    }
+    if (c.posts.length) {
+      wrap.append(sec('بوستات الشهر', h('span', { class: 'chip lime' }, c.posts.length + ' بوست'), h('div', { class: 'pcards' }, c.posts.map(x => h('article', { class: 'pcard' },
+        h('div', { class: 'ph' }, h('b', null, `بوست ${str(x.n)} · أسبوع ${str(x.week)}`), h('div', { class: 'chips' }, h('span', { class: 'chip' }, str(x.pillar)), h('span', { class: 'chip' }, str(x.format)))),
+        h('p', { class: 'note', style: 'margin:0' }, str(x.idea)),
+        h('div', { class: 'ph' }, h('b', { class: 'note' }, 'الكابشن'), cpBtn(str(x.caption))),
+        h('p', { class: 'cap' }, str(x.caption)),
+        h('div', { class: 'kv' }, h('div', { class: 'ph' }, h('b', null, 'للمصمم'), cpBtn(str(x.design))), h('p', null, str(x.design))))))));
+    }
+    if (c.reels.length) {
+      wrap.append(sec('الريلز', h('span', { class: 'chip lime' }, c.reels.length + ' ريل'), h('div', { class: 'pcards' }, c.reels.map(x => h('article', { class: 'pcard' },
+        h('div', { class: 'ph' }, h('b', null, `ريل ${str(x.n)}: ${str(x.title)}`), h('div', { class: 'chips' }, h('span', { class: 'chip' }, str(x.pillar)), h('span', { class: 'chip' }, str(x.length)))),
+        h('p', { class: 'hook' }, str(x.hook)),
+        h('ol', { class: 'shots' }, arr(x.shots).map(sh => h('li', null, str(sh.shot), sh.text ? h('div', { class: 'note' }, 'على الشاشة: ' + str(sh.text)) : null, sh.voice ? h('div', { class: 'note' }, 'صوت: ' + str(sh.voice)) : null))),
+        h('div', { class: 'ph' }, h('b', { class: 'note' }, 'الكابشن'), cpBtn(str(x.caption))),
+        h('p', { class: 'cap' }, str(x.caption)),
+        x.shoot_note ? h('div', { class: 'kv' }, h('b', null, 'العميل يصوّر'), h('p', null, str(x.shoot_note))) : null)))));
+    }
+    return wrap;
+  }
+  function contentMarkdown(b) {
+    const c = contentOf(b);
+    const br = b.brief || {};
+    const L = [`# ${str(br.name)} · المحتوى`, '', `اتعمل ${today()} من Random Brand Studio. الحاجات اللي بين [ ] بتتملا من العميل.`, ''];
+    if (c.tone) {
+      const t = c.tone;
+      L.push('## نبرة الصوت', '', str(t.summary), '');
+      arr(t.sliders).forEach(x => L.push(`- ${str(x.left)} ← ${clamp(x.value)}% → ${str(x.right)}: ${str(x.note)}`));
+      L.push('', `**بنقول:** ${arr(t.we_use).map(str).join('، ')}`, '', `**مبنقولش:** ${arr(t.we_avoid).map(str).join('، ')}`, '', `**اللهجة:** ${str(t.dialect)}`, '', `**الإيموجي:** ${str(t.emoji)}`, '');
+      arr(t.situations).forEach(x => L.push(`### ${str(x.case)}`, '', str(x.example), ''));
+      if (arr(t.checklist).length) { L.push('### قبل ما تنشر', ''); arr(t.checklist).forEach(x => L.push(`- [ ] ${str(x)}`)); L.push(''); }
+    }
+    if (c.profile) {
+      const p = c.profile;
+      L.push('## البروفايل', '', `**خانة الاسم:** ${str(p.name_field)}`, '', '**البايو:**', '', ...arr(p.bio).map(str), '', `**اللينك:** ${str(p.link_cta)}`, '', '**الهايلايتس:**', '');
+      arr(p.highlights).forEach(x => L.push(`- ${str(x.name)}: ${str(x.covers)}`));
+      L.push('', '**رسالة ترحيب واتساب:**', '', str(p.whatsapp_welcome), '');
+      if (arr(p.quick_replies).length) { L.push('## ردود جاهزة', ''); arr(p.quick_replies).forEach(x => L.push(`**${str(x.q)}**`, '', str(x.a), '')); }
+    }
+    if (c.posts.length) {
+      L.push('## بوستات الشهر', '');
+      c.posts.forEach(x => L.push(`### بوست ${str(x.n)} · أسبوع ${str(x.week)} · ${str(x.pillar)} · ${str(x.format)}`, '', `**الفكرة:** ${str(x.idea)}`, '', '**الكابشن:**', '', str(x.caption), '', `**للمصمم:** ${str(x.design)}`, ''));
+    }
+    if (c.reels.length) {
+      L.push('## الريلز', '');
+      c.reels.forEach(x => { L.push(`### ريل ${str(x.n)}: ${str(x.title)} (${str(x.length)})`, '', `**الهوك:** ${str(x.hook)}`, ''); arr(x.shots).forEach((sh, i) => L.push(`${i + 1}. ${str(sh.shot)}${sh.text ? ` · على الشاشة: ${str(sh.text)}` : ''}${sh.voice ? ` · صوت: ${str(sh.voice)}` : ''}`)); L.push('', '**الكابشن:**', '', str(x.caption), '', `**العميل يصوّر:** ${str(x.shoot_note)}`, ''); });
+    }
+    return L.join('\n');
+  }
+  async function exportContent(b) {
+    const text = contentMarkdown(b);
+    const fname = ((str(b.brief && b.brief.name_en) || 'brand').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'brand') + '-content.md';
+    if (downloads) { try { await downloads.save({ filename: fname, data: text }); setStatus('ملف المحتوى اتحفظ.'); return; } catch (e) { if (e && e.code === 'declined') return; } }
+    if (LOCAL) { saveFile(fname, text, 'text/markdown'); setStatus('ملف المحتوى اتحفظ.'); return; }
+    try { await navigator.clipboard.writeText(text); setStatus('المحتوى اتنسخ.'); } catch (e) { setStatus('مقدرتش أحفظ أو أنسخ هنا.'); }
   }
 
   // ----- roadmap -----
@@ -825,7 +971,7 @@ ${TASKS[sid]}${note ? `\n\nEXTRA INSTRUCTION FROM THE AGENCY: ${note}` : ''}`;
     if (st.status === 'done' && st.data) Object.entries(st.data).forEach(([k, v]) => { const r = kvRow(k, v); if (r) body.append(r); });
     else body.append(h('p', { class: 'note' }, status === 'running' ? 'بيشتغل دلوقتي...' : 'المرحلة دي لسه ما اتعملتش.'));
     drawerEl = h('aside', { class: 'drawer', role: 'dialog', 'aria-label': s.name },
-      h('header', null, h('div', null, h('div', { class: 'nk' }, `المرحلة ${idx + 1} من 8`), h('h2', null, s.name)),
+      h('header', null, h('div', null, h('div', { class: 'nk' }, `المرحلة ${idx + 1} من ${STAGES.length}`), h('h2', null, s.name)),
         h('button', { class: 'btn', type: 'button', onclick: () => { drawerStage = null; render(); } }, 'اقفل')),
       body,
       h('div', { class: 'regen' },
